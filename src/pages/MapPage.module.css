@@ -1,0 +1,224 @@
+/* ─── Page ─── */
+.mapPage {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: calc(var(--space-2xl) * -1);
+}
+
+/* ─── Hero Header ─── */
+.hero {
+  position: relative;
+  padding: var(--space-3xl) var(--space-2xl) var(--space-2xl);
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 0%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(124, 58, 237, 0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.heroBadge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  opacity: 0.7;
+}
+
+.heroTitle {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+  line-height: 1.05;
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-top: var(--space-xs);
+}
+
+/* ─── Body ─── */
+.body {
+  padding: var(--space-2xl);
+}
+
+/* ─── Main Quest ─── */
+.mqContent {
+  /* StepNavigator fills this */
+}
+
+/* ─── Wonder Weapon ─── */
+.wwContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.wwHeader {
+  padding-bottom: var(--space-sm);
+}
+
+.wwTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.wwSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-2xl);
+  position: relative;
+}
+
+.wwSection:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-border), transparent 80%);
+}
+
+.wwSectionHeader {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+}
+
+.wwSectionNumber {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-accent);
+  opacity: 0.25;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.wwSectionTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.wwStepList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  list-style: none;
+  padding: 0;
+}
+
+.wwStep {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--space-xl);
+  position: relative;
+}
+
+.wwStep::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent-dim);
+  opacity: 0.4;
+}
+
+.wwStepText {
+  font-size: var(--font-size-base);
+  line-height: 1.75;
+  color: var(--color-text-primary);
+}
+
+.wwStepDetails {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Solvers ─── */
+.solversContent {
+  min-height: 280px;
+}
+
+.solversList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.solverDivider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-md) 0;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  color: var(--color-text-muted);
+  min-height: 280px;
+}
+
+.placeholderIcon {
+  font-size: 2.5rem;
+  opacity: 0.3;
+}
+
+/* ─── Not Found ─── */
+.notFound {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+  .mapPage {
+    margin: calc(var(--space-lg) * -1);
+  }
+
+  .hero {
+    padding: var(--space-2xl) var(--space-lg) var(--space-xl);
+  }
+
+  .heroTitle {
+    font-size: var(--font-size-2xl);
+  }
+
+  .body {
+    padding: var(--space-lg);
+  }
+}
