@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model RunLog {
+  id                    String   @id @default(cuid())
+  date                  DateTime @default(now())
+  patchRulesetVersion   String   @default("")
+  routeVersion          String   @default("")
+  purpose               String   @default("PB")
+  testVariable          String   @default("")
+  controlCondition      String   @default("")
+  executionGrade        String   @default("B")
+  finalTime             String   @default("")
+  result                String   @default("Completion")
+  resetPointCause       String   @default("")
+
+  // Loadout
+  weapon                String   @default("")
+  packTimingLevel       String   @default("")
+  perks                 String   @default("")
+  armorPurchased        Boolean  @default(false)
+  gobbleGumsUsed        String   @default("")
+
+  // Splits
+  s2Power                    String   @default("")
+  s3FirstObjectiveStart      String   @default("")
+  s4FirstObjectiveComplete   String   @default("")
+  s5FirstPack                String   @default("")
+  s6FinalRequiredItem        String   @default("")
+  s7BossEntry                String   @default("")
+  s8FirstRam                 String   @default("")
+  bossCycleTimes             String   @default("")
+
+  // Analysis
+  largestSplitGain      String   @default("")
+  largestSplitLoss      String   @default("")
+  pointTotalsS5S6S7     String   @default("")
+  ammoStateAtS7         String   @default("")
+  mistakes              String   @default("")
+  resetWorthyMistake    Boolean  @default(false)
+  validEvidenceReason   String   @default("")
+  nextTest              String   @default("")
+}
