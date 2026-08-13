@@ -19,11 +19,7 @@ export function ZaryaConsoleSolver() {
     <div className={styles.solver}>
       <h3 className={styles.title}>Zarya Console Solver</h3>
       <p className={styles.description}>
-        Select the word shown on the monitors to reveal the 6-number console code.
-      </p>
-
-      <p className={styles.instruction}>
-        Decode the pigpen cipher on the monitors, then select the matching word below to get the code to enter on the console.
+        Match the pigpen cipher shown on the monitors to one of the words below. Select it to reveal the word and the 6-number code.
       </p>
 
       <div className={styles.wordCards}>
@@ -34,14 +30,14 @@ export function ZaryaConsoleSolver() {
             onClick={() => setSelected(word)}
             aria-pressed={selected === word}
           >
-            {word}
+            <span className={styles.pigpenText}>{word}</span>
           </button>
         ))}
       </div>
 
       {digits ? (
         <div className={styles.codeDisplay}>
-          <span className={styles.codeWord}>Code for {selected}</span>
+          <span className={styles.codeWord}>{selected}</span>
           <div className={styles.codeDigits}>
             {digits.map((digit, i) => (
               <span key={i}>
@@ -55,7 +51,7 @@ export function ZaryaConsoleSolver() {
         </div>
       ) : (
         <div className={styles.placeholder}>
-          Select a word above to see the console code.
+          Select the matching pigpen cipher above to see the word and code.
         </div>
       )}
     </div>
