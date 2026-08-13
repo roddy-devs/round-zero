@@ -71,11 +71,14 @@
 }
 
 .glyphs {
-  font-family: 'Pigpen', monospace;
-  font-size: 1.75rem;
-  letter-spacing: 0.15em;
-  color: #e2e8f0;
-  line-height: 1;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.glyph {
+  display: block;
+  flex-shrink: 0;
 }
 
 .results {

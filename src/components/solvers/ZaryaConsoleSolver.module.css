@@ -45,12 +45,11 @@
   border-color: #a92e2e;
 }
 
-.pigpenText {
-  font-family: 'Pigpen', monospace;
-  font-size: 1.5rem;
-  letter-spacing: 0.12em;
-  color: #e2e8f0;
-  line-height: 1;
+.pigpenGlyphs {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
 }
 
 .codeDisplay {
