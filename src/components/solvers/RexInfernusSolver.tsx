@@ -51,7 +51,6 @@ const RIDDLE_SOLUTIONS: RiddleSolution[] = [
 
 export function RexInfernusSolver() {
   const [selectedId, setSelectedId] = useState(RIDDLE_SOLUTIONS[0].id);
-  const [revealedId, setRevealedId] = useState<string | null>(RIDDLE_SOLUTIONS[0].id);
 
   const selectedRiddle = useMemo(
     () =>
@@ -61,16 +60,16 @@ export function RexInfernusSolver() {
   );
 
   const solvedRiddle = useMemo(
-    () => RIDDLE_SOLUTIONS.find((riddle) => riddle.id === revealedId) ?? null,
-    [revealedId]
+    () => RIDDLE_SOLUTIONS.find((riddle) => riddle.id === selectedId) ?? null,
+    [selectedId]
   );
 
   return (
     <div className={styles.solver}>
       <h3 className={styles.title}>Rex Infernus Riddle Solver</h3>
       <p className={styles.description}>
-        Select the sentence that appears on your run, then press Solve to get
-        the switch values.
+        Select the sentence that appears on your run to instantly reveal the
+        switch values.
       </p>
 
       <div className={styles.riddleTabs} role="tablist" aria-label="Riddle selections">
@@ -91,16 +90,6 @@ export function RexInfernusSolver() {
       <blockquote className={styles.riddleQuote}>
         {selectedRiddle.sentence}
       </blockquote>
-
-      <div className={styles.actions}>
-        <button
-          type="button"
-          className={styles.solveButton}
-          onClick={() => setRevealedId(selectedRiddle.id)}
-        >
-          Solve
-        </button>
-      </div>
 
       <div className={styles.results}>
         <div className={styles.resultItem}>

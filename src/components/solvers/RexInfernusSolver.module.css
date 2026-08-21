@@ -55,28 +55,6 @@
   font-style: italic;
 }
 
-.actions {
-  display: flex;
-  justify-content: center;
-}
-
-.solveButton {
-  padding: var(--space-sm) var(--space-2xl);
-  background: var(--color-accent);
-  border: 1px solid var(--color-accent);
-  border-radius: var(--radius-md);
-  color: #161616;
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.solveButton:hover {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-}
-
 .results {
   display: grid;
   grid-template-columns: repeat(3, minmax(110px, 1fr));

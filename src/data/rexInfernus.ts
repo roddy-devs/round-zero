@@ -6,7 +6,7 @@ export const rexInfernus: MapData = {
   game: 'Black Ops 7',
   subtitle: 'Main Quest In Progress',
   description:
-    'The full quest route is still being documented. Use the Solvers tab for the currently known switch-riddle solution set.',
+    "As reality stands on the cusp of destruction, the crew face their ultimate challenge. Cleanse the Shadowsmith places of power, find the Warden's inner sanctum, and put an end to his loathsome existence.",
   wonderWeapon: {
     name: 'TBD',
     sections: [
