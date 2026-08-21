@@ -17,11 +17,13 @@ import {
   PillarSymbolSolver,
   PlanetAlignmentSolver,
   MarsCodeSolver,
+  RexInfernusSolver,
 } from '../components/solvers';
 import styles from './MapPage.module.css';
 
 export function MapPage() {
   const { slug } = useParams<{ slug: string }>();
+  const [activeTab, setActiveTab] = useState('mq');
   const map = getMapBySlug(slug ?? '');
 
   if (!map) {
@@ -32,8 +34,6 @@ export function MapPage() {
       </div>
     );
   }
-
-  const [activeTab, setActiveTab] = useState('mq');
 
   const wonderWeaponContent = (
     <div className={styles.wwContent}>
@@ -105,6 +105,11 @@ export function MapPage() {
       {map.slug === 'paradox' && (
         <div className={styles.solversList}>
           <NoteOrderSolver />
+        </div>
+      )}
+      {map.slug === 'rex-infernus' && (
+        <div className={styles.solversList}>
+          <RexInfernusSolver />
         </div>
       )}
       {map.slug === 'totenreich' && (
