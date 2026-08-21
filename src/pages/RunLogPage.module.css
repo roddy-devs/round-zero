@@ -548,3 +548,108 @@
   padding: var(--space-sm) var(--space-md);
   margin-bottom: var(--space-lg);
 }
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+
+  .pageTitle {
+    font-size: var(--font-size-2xl);
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filterGroup {
+    justify-content: space-between;
+  }
+
+  .filterCount {
+    margin-left: 0;
+  }
+
+  .formWrap {
+    padding: var(--space-md);
+  }
+
+  .formGrid,
+  .detailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .btnPrimary,
+  .btnSecondary,
+  .btnDanger {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cardBody {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+  }
+
+  .cardStat {
+    padding: var(--space-xs) 0;
+  }
+
+  .overlay {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .modal {
+    max-height: 92vh;
+  }
+
+  .modalHeader {
+    padding: var(--space-md);
+  }
+
+  .modalBody {
+    padding: var(--space-md);
+    gap: var(--space-lg);
+  }
+
+  .splitRow {
+    grid-template-columns: 30px 1fr;
+    gap: var(--space-sm);
+  }
+
+  .splitValue {
+    grid-column: 1 / -1;
+    text-align: left;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    padding-left: calc(30px + var(--space-sm));
+  }
+}

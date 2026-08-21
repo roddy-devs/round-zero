@@ -8,9 +8,12 @@
   display: flex;
   gap: 0;
   border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .tab {
+  flex-shrink: 0;
   padding: var(--space-md) var(--space-xl);
   background: none;
   border: none;
@@ -22,6 +25,7 @@
   transition: all var(--transition-fast);
   margin-bottom: -1px;
   position: relative;
+  white-space: nowrap;
 }
 
 .tab:hover {
@@ -52,4 +56,19 @@
 
 .tabPanel {
   min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    gap: var(--space-lg);
+  }
+
+  .tab {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-xs);
+  }
+
+  .tabPanel {
+    min-height: 0;
+  }
 }

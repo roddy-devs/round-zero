@@ -646,9 +646,21 @@
     padding: var(--space-sm) var(--space-md);
   }
 
+  .navButtons {
+    flex-wrap: wrap;
+  }
+
+  .navButton,
+  .navButtonNext {
+    margin-left: 0;
+    flex: 1;
+    justify-content: center;
+  }
+
   /* Screenshots: switch from fixed 320px width to full container width */
   .mediaThumbnail {
     width: 100%;
+    max-width: 100%;
   }
 
   /* Substep content needs to shrink so its media doesn't overflow */

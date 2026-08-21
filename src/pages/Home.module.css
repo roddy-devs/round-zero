@@ -112,3 +112,21 @@
 .card:hover .cardLink {
   color: var(--color-accent);
 }
+
+@media (max-width: 768px) {
+  .home {
+    gap: var(--space-2xl);
+  }
+
+  .title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+}
