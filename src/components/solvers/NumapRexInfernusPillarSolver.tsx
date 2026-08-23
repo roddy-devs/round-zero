@@ -10,6 +10,11 @@ interface Position {
   detail: string;
 }
 
+interface ElementTarget {
+  id: number;
+  label: string;
+}
+
 const POSITIONS: Position[] = [
   { id: 1, name: 'Ice', detail: 'Target' },
   { id: 2, name: 'Between', detail: 'Ice / Laser' },
@@ -21,6 +26,12 @@ const POSITIONS: Position[] = [
 
 const PILLARS: Lever[] = ['A', 'B', 'C'];
 const DEFAULT_STATE: number[] = [1, 3, 4];
+const ELEMENT_TARGETS: ElementTarget[] = [
+  { id: 1, label: 'Ice' },
+  { id: 3, label: 'Laser' },
+  { id: 4, label: 'Fire' },
+  { id: 6, label: 'Rock' },
+];
 
 function applyMove(state: number[], lever: Lever): number[] {
   const next = [...state];
@@ -102,7 +113,7 @@ function pointForPosition(position: number): [number, number] {
 
 export function NumapRexInfernusPillarSolver() {
   const [current, setCurrent] = useState<number[]>(DEFAULT_STATE);
-  const [target, setTarget] = useState<number[]>(DEFAULT_STATE);
+  const [targetPosition, setTargetPosition] = useState<number>(1);
   const [solution, setSolution] = useState<Lever[] | null>(null);
   const [warning, setWarning] = useState<string>('');
 
@@ -132,13 +143,7 @@ export function NumapRexInfernusPillarSolver() {
   };
 
   const handleSolve = () => {
-    const distinctTarget = new Set(target);
-    if (distinctTarget.size !== 3) {
-      setWarning('Each pillar must have a different destination position.');
-      setSolution(null);
-      return;
-    }
-
+    const target = [targetPosition, targetPosition, targetPosition];
     const path = shortestSolution(current, target);
     if (path === null) {
       setWarning('No solution exists for this configuration.');
@@ -152,7 +157,7 @@ export function NumapRexInfernusPillarSolver() {
 
   const handleReset = () => {
     setCurrent(DEFAULT_STATE);
-    setTarget(DEFAULT_STATE);
+    setTargetPosition(1);
     setSolution(null);
     setWarning('');
   };
@@ -161,7 +166,7 @@ export function NumapRexInfernusPillarSolver() {
     <div className={styles.solver}>
       <h3 className={styles.title}>Numap Rex Infernus Pillar Solver</h3>
       <p className={styles.description}>
-        Enter the current pillar positions, choose unique destination positions, then solve for the shortest lever sequence.
+        Enter the current pillar positions, then choose one elemental destination for all pillars.
       </p>
 
       <div className={styles.grid}>
@@ -190,24 +195,18 @@ export function NumapRexInfernusPillarSolver() {
         </section>
 
         <section className={styles.panel}>
-          <h4 className={styles.panelTitle}>Destination Positions</h4>
-          <div className={styles.rows}>
-            {PILLARS.map((pillar, index) => (
-              <label key={`target-${pillar}`} className={styles.row}>
-                <span className={styles.rowLabel}>Pillar {pillar}</span>
-                <select
-                  className={styles.select}
-                  value={target[index]}
-                  onChange={(event) =>
-                    handleStateChange(setTarget, index, Number.parseInt(event.target.value, 10))
-                  }
-                >
-                  {POSITIONS.map((position) => (
-                    <option key={position.id} value={position.id}>
-                      {position.id}. {position.name} ({position.detail})
-                    </option>
-                  ))}
-                </select>
+          <h4 className={styles.panelTitle}>Shared Destination</h4>
+          <div className={styles.targetGrid}>
+            {ELEMENT_TARGETS.map((target) => (
+              <label key={target.id} className={styles.targetChoice}>
+                <input
+                  type="radio"
+                  name="targetPosition"
+                  value={target.id}
+                  checked={targetPosition === target.id}
+                  onChange={() => setTargetPosition(target.id)}
+                />
+                <span>{target.label}</span>
               </label>
             ))}
           </div>
@@ -220,7 +219,7 @@ export function NumapRexInfernusPillarSolver() {
           {POSITIONS.map((position, index) => (
             <div
               key={`slot-${position.id}`}
-              className={`${styles.slot} ${styles[`slot${index + 1}` as keyof typeof styles]}`}
+              className={`${styles.slot} ${styles[`slot${index + 1}` as keyof typeof styles]} ${targetPosition === position.id ? styles.slotTarget : ''}`}
             >
               <strong>{position.id}. {position.name}</strong>
               <small>{position.detail}</small>
