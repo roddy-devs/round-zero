@@ -12,3 +12,4 @@ export { PillarSymbolSolver } from './PillarSymbolSolver';
 export { PlanetAlignmentSolver } from './PlanetAlignmentSolver';
 export { MarsCodeSolver } from './MarsCodeSolver';
 export { RexInfernusSolver } from './RexInfernusSolver';
+export { NumapRexInfernusPillarSolver } from './NumapRexInfernusPillarSolver';

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BO Zombies Pillar Solver</title>
+<style>
+  :root {
+    --bg: #0b0d10;
+    --panel: #13171c;
+    --panel2: #1a2027;
+    --border: #303943;
+    --text: #edf2f7;
+    --muted: #9aa6b2;
+    --accent: #f0b90b;
+    --good: #54d17a;
+    --danger: #ef6262;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b222b 0, var(--bg) 52%);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 18px 48px; }
+  header { text-align: center; margin-bottom: 26px; }
+  h1 { margin: 0 0 8px; letter-spacing: .04em; text-transform: uppercase; }
+  .subtitle { color: var(--muted); margin: 0; }
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card {
+    background: rgba(19,23,28,.94);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.28);
+  }
+  .full { grid-column: 1 / -1; }
+  .card h2 { margin: 0 0 16px; font-size: 18px; }
+  .pillar-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    margin: 10px 0;
+  }
+  label { color: var(--muted); font-size: 13px; }
+  select, button {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--text);
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+  select:focus { outline: 2px solid rgba(240,185,11,.35); }
+  button {
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform .08s ease, filter .15s ease;
+  }
+  button:hover { filter: brightness(1.12); }
+  button:active { transform: translateY(1px); }
+  .solve { background: var(--accent); color: #111; border-color: var(--accent); font-size: 16px; padding: 13px; }
+  .secondary { background: #252d36; margin-top: 10px; }
+  .diagram-wrap { display: flex; justify-content: center; }
+  .diagram {
+    position: relative;
+    width: min(460px, 90vw);
+    aspect-ratio: 1;
+    margin: 4px auto 10px;
+  }
+  .ring {
+    position: absolute;
+    inset: 10%;
+    border: 2px dashed #47515c;
+    border-radius: 50%;
+  }
+  .center {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 112px; height: 112px;
+    border-radius: 50%;
+    background: #0e1216;
+    border: 1px solid #39434d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+  .slot {
+    position: absolute;
+    width: 104px;
+    min-height: 58px;
+    transform: translate(-50%, -50%);
+    background: #171d23;
+    border: 1px solid #39434d;
+    border-radius: 12px;
+    text-align: center;
+    padding: 8px 5px;
+    font-size: 11px;
+  }
+  .slot strong { display: block; color: var(--text); font-size: 12px; margin-bottom: 2px; }
+  .slot small { color: var(--muted); }
+  .slot.s1 { left: 50%; top: 7%; }
+  .slot.s2 { left: 93%; top: 28%; }
+  .slot.s3 { left: 93%; top: 72%; }
+  .slot.s4 { left: 50%; top: 93%; }
+  .slot.s5 { left: 7%; top: 72%; }
+  .slot.s6 { left: 7%; top: 28%; }
+  .pillar-dot {
+    position: absolute;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 14px rgba(255,255,255,.25);
+    transition: left .3s, top .3s;
+  }
+  .a { background: #e76f51; }
+  .b { background: #4dabf7; }
+  .c { background: #b197fc; }
+  .legend { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top: 4px; color: var(--muted); font-size: 12px; }
+  .legend span::before { content:""; display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; background: currentColor; }
+  .legend .la { color:#e76f51; } .legend .lb { color:#4dabf7; } .legend .lc { color:#b197fc; }
+  .result { display:none; }
+  .result.show { display:block; }
+  .summary {
+    display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-bottom: 15px;
+  }
+  .stat {
+    background: var(--panel2); border:1px solid var(--border);
+    border-radius: 12px; padding: 12px; text-align:center;
+  }
+  .stat .num { font-size: 25px; font-weight: 800; }
+  .stat .lbl { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+  .sequence {
+    display:flex; flex-wrap:wrap; gap:7px; margin-top:10px;
+  }
+  .step {
+    background:#242c35; border:1px solid #39434d; border-radius:9px;
+    padding:8px 10px; font-size:12px;
+  }
+  .step b { color:var(--accent); margin-right:4px; }
+  .warning {
+    display:none; background:rgba(239,98,98,.1); border:1px solid rgba(239,98,98,.45);
+    color:#ffb0b0; padding:12px; border-radius:10px; margin-top:12px;
+  }
+  .warning.show { display:block; }
+  .note { color:var(--muted); font-size:12px; line-height:1.5; margin-top:14px; }
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    .full { grid-column: auto; }
+    .summary { grid-template-columns: repeat(2,1fr); }
+    .pillar-row { grid-template-columns: 80px 1fr; }
+    .pillar-row label:last-of-type { display:none; }
+    .pillar-row select:last-child { grid-column: 2; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>BO Zombies Pillar Solver</h1>
+    <p class="subtitle">Enter the current state, choose the destination, and get the shortest lever sequence.</p>
+  </header>
+
+  <div class="layout">
+    <section class="card">
+      <h2>Current Positions</h2>
+      <div id="currentRows"></div>
+      <p class="note">These are the positions the three pillars are in right now.</p>
+    </section>
+
+    <section class="card">
+      <h2>Destination Positions</h2>
+      <div id="targetRows"></div>
+      <p class="note">Choose where you want each pillar to finish. The solver can be reused for any new configuration.</p>
+    </section>
+
+    <section class="card full">
+      <h2>Visual Puzzle</h2>
+      <div class="diagram-wrap">
+        <div class="diagram">
+          <div class="ring"></div>
+          <div class="slot s1"><strong>1 · ICE</strong><small>Target</small></div>
+          <div class="slot s2"><strong>2 · BETWEEN</strong><small>Ice / Laser</small></div>
+          <div class="slot s3"><strong>3 · LASER</strong><small>Target</small></div>
+          <div class="slot s4"><strong>4 · FIRE</strong><small>Target</small></div>
+          <div class="slot s5"><strong>5 · BETWEEN</strong><small>Fire / Rock</small></div>
+          <div class="slot s6"><strong>6 · ROCK</strong><small>Target</small></div>
+          <div id="dotA" class="pillar-dot a"></div>
+          <div id="dotB" class="pillar-dot b"></div>
+          <div id="dotC" class="pillar-dot c"></div>
+          <div class="center">3 PILLARS<br>6 POSITIONS</div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="la">Pillar A</span>
+        <span class="lb">Pillar B</span>
+        <span class="lc">Pillar C</span>
+      </div>
+    </section>
+
+    <section class="card full">
+      <button class="solve" onclick="solve()">SOLVE PUZZLE</button>
+      <button class="secondary" onclick="resetAll()">RESET</button>
+      <div id="warning" class="warning"></div>
+    </section>
+
+    <section id="result" class="card full result">
+      <h2>Solution</h2>
+      <div class="summary">
+        <div class="stat"><div id="countA" class="num">0</div><div class="lbl">Push Pillar A</div></div>
+        <div class="stat"><div id="countB" class="num">0</div><div class="lbl">Push Pillar B</div></div>
+        <div class="stat"><div id="countC" class="num">0</div><div class="lbl">Push Pillar C</div></div>
+        <div class="stat"><div id="total" class="num">0</div><div class="lbl">Total Pulls</div></div>
+      </div>
+      <h2>Exact Lever Sequence</h2>
+      <div id="sequence" class="sequence"></div>
+      <p class="note">Follow the sequence from top to bottom. Every listed action is one physical lever pull.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+const positions = [
+  { n:1, name:"ICE" },
+  { n:2, name:"BETWEEN ICE / LASER" },
+  { n:3, name:"LASER" },
+  { n:4, name:"FIRE" },
+  { n:5, name:"BETWEEN FIRE / ROCK" },
+  { n:6, name:"ROCK" }
+];
+
+const pillars = ["A","B","C"];
+
+function options(selected=1) {
+  return positions.map(p => `<option value="${p.n}" ${p.n===selected ? "selected":""}>${p.n} — ${p.name}</option>`).join("");
+}
+
+function buildRows(containerId, defaults) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = pillars.map((p,i) => `
+    <div class="pillar-row">
+      <label>Pillar ${p}</label>
+      <select id="${containerId}-${p}" onchange="updateDiagram()">${options(defaults[i])}</select>
+      <span></span>
+    </div>
+  `).join("");
+}
+
+buildRows("currentRows", [1,3,4]);
+buildRows("targetRows", [1,3,4]);
+
+function getState(prefix) {
+  return pillars.map(p => Number(document.getElementById(`${prefix}-${p}`).value));
+}
+
+// For a lever press on A/B/C:
+// pushed pillar moves +1; the other two move +2.
+// All movement is modulo 6.
+function applyMove(state, lever) {
+  const result = [...state];
+  const index = pillars.indexOf(lever);
+  for (let i=0; i<3; i++) {
+    const delta = (i === index) ? 1 : 2;
+    result[i] = ((result[i] - 1 + delta) % 6) + 1;
+  }
+  return result;
+}
+
+// BFS finds the minimum number of lever pulls.
+// State space is only 6^3 = 216 configurations, so this is tiny.
+function shortestSolution(start, target) {
+  const key = s => s.join(",");
+  if (key(start) === key(target)) return [];
+
+  const queue = [start];
+  const visited = new Set([key(start)]);
+  const parent = new Map();
+
+  while (queue.length) {
+    const state = queue.shift();
+
+    for (const lever of pillars) {
+      const next = applyMove(state, lever);
+      const nextKey = key(next);
+
+      if (visited.has(nextKey)) continue;
+
+      visited.add(nextKey);
+      parent.set(nextKey, { prev: key(state), lever });
+
+      if (nextKey === key(target)) {
+        const path = [];
+        let cur = nextKey;
+        while (cur !== key(start)) {
+          const item = parent.get(cur);
+          path.push(item.lever);
+          cur = item.prev;
+        }
+        return path.reverse();
+      }
+      queue.push(next);
+    }
+  }
+  return null;
+}
+
+function solve() {
+  const start = getState("currentRows");
+  const target = getState("targetRows");
+  const warning = document.getElementById("warning");
+  const result = document.getElementById("result");
+
+  warning.classList.remove("show");
+
+  const targetSet = new Set(target);
+  if (targetSet.size !== 3) {
+    warning.textContent = "Each pillar must have a different destination. Choose three different destination positions.";
+    warning.classList.add("show");
+    result.classList.remove("show");
+    return;
+  }
+
+  const path = shortestSolution(start, target);
+  if (path === null) {
+    warning.textContent = "No solution exists for this configuration.";
+    warning.classList.add("show");
+    result.classList.remove("show");
+    return;
+  }
+
+  const counts = {A:0,B:0,C:0};
+  path.forEach(x => counts[x]++);
+
+  document.getElementById("countA").textContent = counts.A;
+  document.getElementById("countB").textContent = counts.B;
+  document.getElementById("countC").textContent = counts.C;
+  document.getElementById("total").textContent = path.length;
+
+  document.getElementById("sequence").innerHTML =
+    path.length
+      ? path.map((p,i) => `<div class="step"><b>${i+1}.</b> Push Pillar ${p}</div>`).join("")
+      : `<div class="step">Already solved — no lever pulls needed.</div>`;
+
+  result.classList.add("show");
+}
+
+function resetAll() {
+  buildRows("currentRows", [1,3,4]);
+  buildRows("targetRows", [1,3,4]);
+  document.getElementById("result").classList.remove("show");
+  document.getElementById("warning").classList.remove("show");
+  updateDiagram();
+}
+
+function pointForPosition(pos) {
+  const points = {
+    1:[50,7], 2:[93,28], 3:[93,72],
+    4:[50,93], 5:[7,72], 6:[7,28]
+  };
+  return points[pos];
+}
+
+function updateDiagram() {
+  const state = getState("currentRows");
+  ["A","B","C"].forEach((p,i) => {
+    const [x,y] = pointForPosition(state[i]);
+    const dot = document.getElementById("dot"+p);
+    dot.style.left = x + "%";
+    dot.style.top = y + "%";
+  });
+}
+
+updateDiagram();
+</script>
+</body>
+</html>

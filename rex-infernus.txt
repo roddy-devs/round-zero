@@ -1,0 +1,144 @@
+Rex Infernus Main Easter Egg (Step-by-Step)
+
+This is a cleaned and organized walkthrough based on the original notes.
+
+Prerequisite
+1. Obtain the Wonder Weapon before starting this guide.
+
+Part 1: House Symbol Setup
+1. Shoot the basketball on the roof of the house.
+2. Wait for it to fall into the void, then end the round.
+3. A symbol appears on the house.
+4. End three more rounds to spawn a total of four symbols.
+5. Record the exact spawn order and positions of the symbols.
+
+Part 2: Exfil Step and Eye Lockdown
+1. Continue rounds until an Exfil round appears.
+2. During Exfil, shoot the four house symbols in their recorded order.
+3. Start Exfil, kill the Exfil HVT, and complete the Exfil.
+4. You are transported back to the house.
+5. In the upstairs bathroom, fire a charged Wonder Weapon shot.
+6. Pick up the eye that rises from the barrier.
+7. Complete the lockdown by killing all Ravagers and Doppelghasts.
+
+Part 3: Open Pack-a-Punch Wall System
+1. Teleport back to the main map.
+2. Upgrade a grapple point (any grapple point works).
+3. Use it to break all wall seals around Pack-a-Punch.
+4. Go underneath Pack-a-Punch and break both side seals there too.
+5. After all seals are broken, destroy the spider webs in the wall (Wonder Weapon or explosives).
+6. Go to Pack-a-Punch and crank the Nexus to surge it.
+7. Go downstairs and interact with the lever until it locks in place.
+8. The upper walls begin rotating.
+
+Part 4: Align Rotating Walls
+1. Align the three rotating walls to the temple you want to progress.
+2. Use the lever on the back of each wall to move them.
+3. The wall you interact with moves slower than the other two.
+
+Part 5: Veytharion Cube Puzzle (Do This Before Temple Cleanses)
+1. Go to the Veytharion temple area.
+2. Find all four cubes around the area.
+3. Death Perception helps a lot with spotting cubes.
+4. Each cube has a symbol (symbols vary by match).
+5. Carry cubes near the input area, but do not insert them yet.
+6. Keep them far enough away so they are not auto-pulled in.
+7. Solve the cube input sequence.
+
+Part 6: Cleanse Dravakar Temple
+1. Equip Shatter Blast.
+2. Go to the Wonder Weapon acquisition room.
+3. In each corner, use Shatter Blast on zombies near wall shields.
+4. Break open reward walls and obtain the hammer.
+5. Place the hammer in Dravakar's temple cauldron.
+6. Get purple fire (pull an orb to center, then crank Nexus if needed).
+7. Throw purple fire into the cauldron.
+8. A mist infects a zombie; lead that zombie to the Titan trap outside Caltheris's temple.
+9. Activate the trap at center; the zombie walks to the correct wrist and dies.
+10. Return to Dravakar's temple.
+11. Interact with the floor plate for quotes.
+12. Stand on the plate while taking zombie damage until it opens.
+13. Shoot a charged Wonder Weapon shot at the revealed button.
+14. Redirect the light to the back-right corner.
+15. Kill zombies so souls enter the beam; wall cracks appear when correct.
+16. When wall opens, shoot the statue inside.
+17. Complete lockdown: find and shoot four shadow souls.
+18. Shoot the same statue again to end lockdown.
+19. Use a grapple to position an orb under Dravakar's head.
+20. Shoot the orb with a charged Wonder Weapon shot so it rises into the head.
+21. Enable rain at the galaxy pool if needed (next round).
+22. With rain active, grab purple fire and strike Dravakar in the forehead with lightning.
+
+Part 7: Cleanse Nixara Temple
+1. Align walls to Nixara's temple.
+2. Equip Shadow Rift.
+3. Farm Shadow Rift kills (forest area is best) until the scroll drops.
+4. Place the scroll in the temple cauldron.
+5. Add purple fire to the cauldron.
+6. Lead the infected zombie to the Titan trap outside Veytharion's temple.
+7. Activate trap at center and let it kill the zombie.
+8. Return to Nixara's temple and interact with the plate.
+9. Lie on the plate until it opens.
+10. Shoot a charged Wonder Weapon shot to raise the button.
+11. Redirect the light to the bottom-left lava pit.
+12. Feed souls into the beam by killing zombies.
+13. When wall opens, shoot the statue.
+14. Complete lockdown: shoot four shadow souls.
+15. Shoot statue again to end lockdown.
+16. Grapple an orb under Nixara's head.
+17. Shoot orb with charged Wonder Weapon so it rises into the head.
+18. Enable rain if needed.
+19. Use purple fire to lightning-strike Nixara's forehead.
+
+Part 8: Cleanse Caltheris Temple
+1. Align walls to Caltheris's temple.
+2. Obtain the thread from purple orbs (random drop chance).
+3. Pull in purple orbs with grapple and interact repeatedly until thread drops.
+4. Optional: complete four sharpshooter plate challenges to open the secret room for extra orbs.
+5. Place thread in the temple cauldron.
+6. Add purple fire to the cauldron.
+7. Lead infected zombie outside and kill it with Titan trap.
+8. Open the temple plate by standing on it long enough.
+9. Shoot a charged Wonder Weapon shot to raise the button.
+10. Redirect the light to the top-left of the room.
+11. Feed souls into the beam to break open the wall.
+12. Shoot statue to begin lockdown.
+13. Break four shadow souls.
+14. Shoot statue again to end lockdown.
+15. Grapple an orb below Caltheris.
+16. Shoot orb with charged Wonder Weapon into her head.
+17. If needed, enable rain at the galaxy pool.
+18. Grab purple fire and lightning-strike Caltheris's forehead.
+
+Part 9: Cleanse Veytharion Temple
+1. Align walls to Veytharion's temple.
+2. Wait for rain; woven sash spawns only while raining.
+3. Check known spawn areas:
+	- Near PhD, behind the box off-map.
+	- Near Jug, off-map.
+	- Near Widow's Wine area.
+4. If not found, do one dry round, then re-enable rain at galaxy pool and check again.
+5. Place woven sash in Veytharion's temple cauldron.
+6. Add purple fire to infect a zombie.
+7. Lead infected zombie outside Veytharion's temple and kill it with Titan trap.
+8. Return inside; open the plate by repeatedly jumping on it.
+9. Shoot charged Wonder Weapon to raise the button.
+10. Redirect light to the middle of the spawn barrier down the left hall.
+11. Feed souls to break wall.
+12. Shoot statue to start final temple lockdown.
+13. Break four shadow souls and kill the abomination.
+14. Shoot statue again to finish lockdown.
+15. Grapple an orb under Veytharion's head.
+16. Shoot orb with charged Wonder Weapon into the head.
+17. With rain active, use purple fire to lightning-strike Veytharion.
+
+Part 10: Start Boss Fight
+1. Go under Pack-a-Punch.
+2. Stand on one of the four circles.
+3. Choose descend to start the boss fight.
+
+Quick Notes
+1. If a step fails, re-check wall alignment and orb placement.
+2. Most temple failures are from incorrect light position or orb position.
+3. Rain-dependent steps can be reset by cycling rain via the galaxy pool.
+
