@@ -16,21 +16,21 @@ interface ElementTarget {
 }
 
 const POSITIONS: Position[] = [
-  { id: 1, name: 'Ice', detail: 'Target' },
-  { id: 2, name: 'Between', detail: 'Ice / Laser' },
-  { id: 3, name: 'Laser', detail: 'Target' },
-  { id: 4, name: 'Fire', detail: 'Target' },
-  { id: 5, name: 'Between', detail: 'Fire / Rock' },
-  { id: 6, name: 'Rock', detail: 'Target' },
+  { id: 1, name: 'Dravakar', detail: 'Target' },
+  { id: 2, name: 'Between', detail: 'Dravakar / Veytharion' },
+  { id: 3, name: 'Veytharion', detail: 'Target' },
+  { id: 4, name: 'Nyxara', detail: 'Target' },
+  { id: 5, name: 'Between', detail: 'Nyxara / Caltheris' },
+  { id: 6, name: 'Caltheris', detail: 'Target' },
 ];
 
 const PILLARS: Lever[] = ['A', 'B', 'C'];
 const DEFAULT_STATE: number[] = [1, 3, 4];
 const ELEMENT_TARGETS: ElementTarget[] = [
-  { id: 1, label: 'Ice' },
-  { id: 3, label: 'Laser' },
-  { id: 4, label: 'Fire' },
-  { id: 6, label: 'Rock' },
+  { id: 1, label: 'Dravakar' },
+  { id: 3, label: 'Veytharion' },
+  { id: 4, label: 'Nyxara' },
+  { id: 6, label: 'Caltheris' },
 ];
 
 function applyMove(state: number[], lever: Lever): number[] {
