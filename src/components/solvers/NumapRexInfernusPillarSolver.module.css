@@ -117,11 +117,30 @@
   aspect-ratio: 1;
 }
 
-.ring {
+.lane {
   position: absolute;
-  inset: 11%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   border: 2px dashed var(--color-border-hover);
   border-radius: 50%;
+}
+
+.laneA {
+  width: 80%;
+  height: 80%;
+}
+
+.laneB {
+  width: 66%;
+  height: 66%;
+  opacity: 0.9;
+}
+
+.laneC {
+  width: 52%;
+  height: 52%;
+  opacity: 0.8;
 }
 
 .slot {

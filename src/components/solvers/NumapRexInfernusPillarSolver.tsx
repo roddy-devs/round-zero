@@ -137,17 +137,16 @@ function shortestSolution(
   return null;
 }
 
-function pointForPosition(position: number): [number, number] {
-  const points: Record<number, [number, number]> = {
-    1: [50, 7],
-    2: [93, 28],
-    3: [93, 72],
-    4: [50, 93],
-    5: [7, 72],
-    6: [7, 28],
-  };
+function pointForPosition(position: number, laneIndex: number): [number, number] {
+  const laneRadiusByIndex = [40, 33, 26];
+  const radius = laneRadiusByIndex[laneIndex] ?? laneRadiusByIndex[laneRadiusByIndex.length - 1];
+  const angleDeg = -90 + (position - 1) * 60;
+  const angleRad = (angleDeg * Math.PI) / 180;
 
-  return points[position] ?? [50, 50];
+  const left = 50 + radius * Math.cos(angleRad);
+  const top = 50 + radius * Math.sin(angleRad);
+
+  return [left, top];
 }
 
 export function NumapRexInfernusPillarSolver() {
@@ -289,7 +288,9 @@ export function NumapRexInfernusPillarSolver() {
 
       <div className={styles.diagramWrap}>
         <div className={styles.diagram}>
-          <div className={styles.ring} />
+          <div className={`${styles.lane} ${styles.laneA}`} />
+          <div className={`${styles.lane} ${styles.laneB}`} />
+          <div className={`${styles.lane} ${styles.laneC}`} />
           {POSITIONS.map((position, index) => (
             <div
               key={`slot-${position.id}`}
@@ -301,7 +302,8 @@ export function NumapRexInfernusPillarSolver() {
           ))}
 
           {PILLARS.map((pillar, index) => {
-            const [left, top] = pointForPosition(current[index]);
+            const laneByPillarIndex = [2, 1, 0];
+            const [left, top] = pointForPosition(current[index], laneByPillarIndex[index]);
 
             return (
               <div
