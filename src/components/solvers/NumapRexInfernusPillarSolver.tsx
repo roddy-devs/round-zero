@@ -27,12 +27,12 @@ interface StepCounts {
 }
 
 const POSITIONS: Position[] = [
-  { id: 1, name: 'Dravakar', detail: 'Target' },
+  { id: 1, name: 'Dravakar', detail: '' },
   { id: 2, name: 'Between', detail: 'Dravakar / Veytharion' },
-  { id: 3, name: 'Veytharion', detail: 'Target' },
-  { id: 4, name: 'Nyxara', detail: 'Target' },
+  { id: 3, name: 'Veytharion', detail: '' },
+  { id: 4, name: 'Nyxara', detail: '' },
   { id: 5, name: 'Between', detail: 'Nyxara / Caltheris' },
-  { id: 6, name: 'Caltheris', detail: 'Target' },
+  { id: 6, name: 'Caltheris', detail: '' },
 ];
 
 const PILLARS: Lever[] = ['A', 'B', 'C'];
@@ -316,6 +316,7 @@ export function NumapRexInfernusPillarSolver() {
   const [routeStartDirection, setRouteStartDirection] = useState<Direction>('counterclockwise');
   const [singleWarning, setSingleWarning] = useState<string>('');
   const [routeWarning, setRouteWarning] = useState<string>('');
+  const [activeSolutionType, setActiveSolutionType] = useState<'single' | 'route' | null>(null);
 
   const singleCounts = useMemo(() => countSteps(singleSolution), [singleSolution]);
   const routeCounts = useMemo(() => countSteps(routeSolution), [routeSolution]);
@@ -349,6 +350,7 @@ export function NumapRexInfernusPillarSolver() {
 
     setSingleWarning('');
     setSingleSolution(path);
+    setActiveSolutionType('single');
   };
 
   const handleSolveAllTargets = () => {
@@ -363,6 +365,7 @@ export function NumapRexInfernusPillarSolver() {
     setRouteStart([...current]);
     setRouteStartDirection(direction);
     setRouteSolution(path);
+    setActiveSolutionType('route');
   };
 
   const handleReset = () => {
@@ -375,6 +378,7 @@ export function NumapRexInfernusPillarSolver() {
     setRouteStartDirection('counterclockwise');
     setSingleWarning('');
     setRouteWarning('');
+    setActiveSolutionType(null);
   };
 
   return (
@@ -383,6 +387,32 @@ export function NumapRexInfernusPillarSolver() {
       <p className={styles.description}>
         Enter current pillar positions and destination. Use Single Target to fix to one destination, or use All Targets Route to get the fastest path that hits all four targets.
       </p>
+
+      <section className={styles.directionPanel}>
+        <h4 className={styles.panelTitle}>Pillar Direction</h4>
+        <div className={styles.directionGrid}>
+          <label className={styles.targetChoice}>
+            <input
+              type="radio"
+              name="direction"
+              value="counterclockwise"
+              checked={direction === 'counterclockwise'}
+              onChange={() => setDirection('counterclockwise')}
+            />
+            <span>↺ Counterclockwise (Regular)</span>
+          </label>
+          <label className={styles.targetChoice}>
+            <input
+              type="radio"
+              name="direction"
+              value="clockwise"
+              checked={direction === 'clockwise'}
+              onChange={() => setDirection('clockwise')}
+            />
+            <span>↻ Clockwise (Other Way)</span>
+          </label>
+        </div>
+      </section>
 
       <div className={styles.grid}>
         <section className={styles.panel}>
@@ -400,7 +430,8 @@ export function NumapRexInfernusPillarSolver() {
                 >
                   {POSITIONS.map((position) => (
                     <option key={position.id} value={position.id}>
-                      {position.id}. {position.name} ({position.detail})
+                      {position.id}. {position.name}
+                      {position.detail ? ` (${position.detail})` : ''}
                     </option>
                   ))}
                 </select>
@@ -424,30 +455,6 @@ export function NumapRexInfernusPillarSolver() {
                 <span>{target.label}</span>
               </label>
             ))}
-          </div>
-
-          <h4 className={styles.panelTitle}>Pillar Direction</h4>
-          <div className={styles.directionGrid}>
-            <label className={styles.targetChoice}>
-              <input
-                type="radio"
-                name="direction"
-                value="counterclockwise"
-                checked={direction === 'counterclockwise'}
-                onChange={() => setDirection('counterclockwise')}
-              />
-              <span>Counterclockwise (Regular)</span>
-            </label>
-            <label className={styles.targetChoice}>
-              <input
-                type="radio"
-                name="direction"
-                value="clockwise"
-                checked={direction === 'clockwise'}
-                onChange={() => setDirection('clockwise')}
-              />
-              <span>Clockwise (Other Way)</span>
-            </label>
           </div>
         </section>
       </div>
@@ -508,7 +515,7 @@ export function NumapRexInfernusPillarSolver() {
       {singleWarning && <p className={styles.warning}>{singleWarning}</p>}
       {routeWarning && <p className={styles.warning}>{routeWarning}</p>}
 
-      {singleSolution && (
+      {activeSolutionType === 'single' && singleSolution && (
         <section className={styles.result}>
           <h4 className={styles.sequenceTitle}>Single Target Solution</h4>
           <div className={styles.summary}>
@@ -557,7 +564,7 @@ export function NumapRexInfernusPillarSolver() {
         </section>
       )}
 
-      {routeSolution && (
+      {activeSolutionType === 'route' && routeSolution && (
         <section className={styles.result}>
           <h4 className={styles.sequenceTitle}>All Four Targets Route (Fastest)</h4>
           <div className={styles.summary}>
