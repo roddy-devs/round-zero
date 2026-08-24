@@ -48,7 +48,7 @@ function applyMove(state: number[], lever: Lever): number[] {
 
   for (let i = 0; i < PILLARS.length; i += 1) {
     const delta = i === pushedIndex ? 1 : 2;
-    next[i] = ((next[i] - 1 - delta + 12) % 6) + 1;
+    next[i] = ((next[i] - 1 + delta) % 6) + 1;
   }
 
   return next;
