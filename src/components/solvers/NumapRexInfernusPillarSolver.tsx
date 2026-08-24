@@ -19,6 +19,13 @@ interface ElementTarget {
   label: string;
 }
 
+interface StepCounts {
+  A: number;
+  B: number;
+  C: number;
+  switches: number;
+}
+
 const POSITIONS: Position[] = [
   { id: 1, name: 'Dravakar', detail: 'Target' },
   { id: 2, name: 'Between', detail: 'Dravakar / Veytharion' },
@@ -29,13 +36,14 @@ const POSITIONS: Position[] = [
 ];
 
 const PILLARS: Lever[] = ['A', 'B', 'C'];
-const DEFAULT_STATE: number[] = [1, 3, 4];
+const DEFAULT_STATE: number[] = [6, 1, 2];
 const ELEMENT_TARGETS: ElementTarget[] = [
   { id: 1, label: 'Dravakar' },
   { id: 3, label: 'Veytharion' },
   { id: 4, label: 'Nyxara' },
   { id: 6, label: 'Caltheris' },
 ];
+const TARGET_IDS = ELEMENT_TARGETS.map((target) => target.id);
 
 function applyMove(state: number[], lever: Lever, direction: Direction): number[] {
   const next = [...state];
@@ -58,6 +66,41 @@ function directionLabel(direction: Direction): string {
 
 function flipDirection(direction: Direction): Direction {
   return direction === 'counterclockwise' ? 'clockwise' : 'counterclockwise';
+}
+
+function allTargetsMask(): number {
+  return (1 << TARGET_IDS.length) - 1;
+}
+
+function alignmentMask(positions: number[]): number {
+  if (!positions.every((value) => value === positions[0])) {
+    return 0;
+  }
+
+  const alignedPosition = positions[0];
+  const targetIndex = TARGET_IDS.indexOf(alignedPosition);
+  if (targetIndex < 0) {
+    return 0;
+  }
+
+  return 1 << targetIndex;
+}
+
+function countSteps(steps: SolverStep[] | null): StepCounts {
+  const result: StepCounts = { A: 0, B: 0, C: 0, switches: 0 };
+  if (!steps) {
+    return result;
+  }
+
+  steps.forEach((step) => {
+    if (step.type === 'pull') {
+      result[step.lever] += 1;
+      return;
+    }
+    result.switches += 1;
+  });
+
+  return result;
 }
 
 function shortestSolution(
@@ -137,6 +180,120 @@ function shortestSolution(
   return null;
 }
 
+function shortestAllTargetsSolution(start: number[], startingDirection: Direction): SolverStep[] | null {
+  const stateKey = (positions: number[], direction: Direction, mask: number) =>
+    `${positions.join(',')}|${direction}|${mask}`;
+
+  const startMask = alignmentMask(start);
+  const fullMask = allTargetsMask();
+  if (startMask === fullMask) {
+    return [];
+  }
+
+  const startKey = stateKey(start, startingDirection, startMask);
+  const queue: Array<{ positions: number[]; direction: Direction; mask: number }> = [
+    { positions: start, direction: startingDirection, mask: startMask },
+  ];
+  const visited = new Set([startKey]);
+  const parent = new Map<string, { prev: string; step: SolverStep }>();
+
+  while (queue.length > 0) {
+    const state = queue.shift();
+    if (!state) {
+      break;
+    }
+
+    for (const lever of PILLARS) {
+      const nextPositions = applyMove(state.positions, lever, state.direction);
+      const nextMask = state.mask | alignmentMask(nextPositions);
+      const nextKey = stateKey(nextPositions, state.direction, nextMask);
+
+      if (visited.has(nextKey)) {
+        continue;
+      }
+
+      visited.add(nextKey);
+      parent.set(nextKey, {
+        prev: stateKey(state.positions, state.direction, state.mask),
+        step: { type: 'pull', lever },
+      });
+
+      if (nextMask === fullMask) {
+        const path: SolverStep[] = [];
+        let current = nextKey;
+
+        while (current !== startKey) {
+          const node = parent.get(current);
+          if (!node) {
+            return null;
+          }
+          path.push(node.step);
+          current = node.prev;
+        }
+
+        return path.reverse();
+      }
+
+      queue.push({ positions: nextPositions, direction: state.direction, mask: nextMask });
+    }
+
+    const switchedDirection = flipDirection(state.direction);
+    const switchedKey = stateKey(state.positions, switchedDirection, state.mask);
+
+    if (!visited.has(switchedKey)) {
+      visited.add(switchedKey);
+      parent.set(switchedKey, {
+        prev: stateKey(state.positions, state.direction, state.mask),
+        step: { type: 'switch', nextDirection: switchedDirection },
+      });
+
+      queue.push({ positions: state.positions, direction: switchedDirection, mask: state.mask });
+    }
+  }
+
+  return null;
+}
+
+function milestoneLabels(
+  start: number[],
+  startingDirection: Direction,
+  steps: SolverStep[]
+): Array<{ id: number; label: string; actionNumber: number }> {
+  const reached = new Set<number>();
+  const milestones: Array<{ id: number; label: string; actionNumber: number }> = [];
+  let positions = [...start];
+  let direction = startingDirection;
+
+  const pushMilestoneIfAny = (actionNumber: number) => {
+    const mask = alignmentMask(positions);
+    if (mask === 0) {
+      return;
+    }
+
+    const targetIndex = Math.log2(mask);
+    const target = ELEMENT_TARGETS[targetIndex];
+    if (!target || reached.has(target.id)) {
+      return;
+    }
+
+    reached.add(target.id);
+    milestones.push({ id: target.id, label: target.label, actionNumber });
+  };
+
+  pushMilestoneIfAny(0);
+
+  steps.forEach((step, index) => {
+    if (step.type === 'pull') {
+      positions = applyMove(positions, step.lever, direction);
+    } else {
+      direction = step.nextDirection;
+    }
+    pushMilestoneIfAny(index + 1);
+  });
+
+  return milestones;
+}
+
 function pointForPosition(position: number, laneIndex: number): [number, number] {
   const laneRadiusByIndex = [40, 33, 26];
   const radius = laneRadiusByIndex[laneIndex] ?? laneRadiusByIndex[laneRadiusByIndex.length - 1];
@@ -153,30 +310,21 @@ export function NumapRexInfernusPillarSolver() {
   const [current, setCurrent] = useState<number[]>(DEFAULT_STATE);
   const [targetPosition, setTargetPosition] = useState<number>(1);
   const [direction, setDirection] = useState<Direction>('counterclockwise');
-  const [solution, setSolution] = useState<SolverStep[] | null>(null);
-  const [warning, setWarning] = useState<string>('');
+  const [singleSolution, setSingleSolution] = useState<SolverStep[] | null>(null);
+  const [routeSolution, setRouteSolution] = useState<SolverStep[] | null>(null);
+  const [routeStart, setRouteStart] = useState<number[]>(DEFAULT_STATE);
+  const [routeStartDirection, setRouteStartDirection] = useState<Direction>('counterclockwise');
+  const [singleWarning, setSingleWarning] = useState<string>('');
+  const [routeWarning, setRouteWarning] = useState<string>('');
 
-  const counts = useMemo(() => {
-    const result: Record<Lever, number> & { switches: number } = {
-      A: 0,
-      B: 0,
-      C: 0,
-      switches: 0,
-    };
-    if (!solution) {
-      return result;
+  const singleCounts = useMemo(() => countSteps(singleSolution), [singleSolution]);
+  const routeCounts = useMemo(() => countSteps(routeSolution), [routeSolution]);
+  const routeMilestones = useMemo(() => {
+    if (!routeSolution) {
+      return [];
     }
-
-    solution.forEach((step) => {
-      if (step.type === 'pull') {
-        result[step.lever] += 1;
-      } else {
-        result.switches += 1;
-      }
-    });
-
-    return result;
-  }, [solution]);
+    return milestoneLabels(routeStart, routeStartDirection, routeSolution);
+  }, [routeStart, routeStartDirection, routeSolution]);
 
   const handleStateChange = (
     setter: Dispatch<SetStateAction<number[]>>,
@@ -194,28 +342,46 @@ export function NumapRexInfernusPillarSolver() {
     const target = [targetPosition, targetPosition, targetPosition];
     const path = shortestSolution(current, target, direction);
     if (path === null) {
-      setWarning('No solution exists for this configuration.');
-      setSolution(null);
+      setSingleWarning('No solution exists for this configuration.');
+      setSingleSolution(null);
       return;
     }
 
-    setWarning('');
-    setSolution(path);
+    setSingleWarning('');
+    setSingleSolution(path);
+  };
+
+  const handleSolveAllTargets = () => {
+    const path = shortestAllTargetsSolution(current, direction);
+    if (path === null) {
+      setRouteWarning('No all-target route exists for this configuration.');
+      setRouteSolution(null);
+      return;
+    }
+
+    setRouteWarning('');
+    setRouteStart([...current]);
+    setRouteStartDirection(direction);
+    setRouteSolution(path);
   };
 
   const handleReset = () => {
     setCurrent(DEFAULT_STATE);
     setTargetPosition(1);
     setDirection('counterclockwise');
-    setSolution(null);
-    setWarning('');
+    setSingleSolution(null);
+    setRouteSolution(null);
+    setRouteStart(DEFAULT_STATE);
+    setRouteStartDirection('counterclockwise');
+    setSingleWarning('');
+    setRouteWarning('');
   };
 
   return (
     <div className={styles.solver}>
       <h3 className={styles.title}>Numap Rex Infernus Pillar Solver</h3>
       <p className={styles.description}>
-        Enter the current pillar positions and destination. The solver will include mid-run direction switches automatically when that is the fastest path.
+        Enter current pillar positions and destination. Use Single Target to fix to one destination, or use All Targets Route to get the fastest path that hits all four targets.
       </p>
 
       <div className={styles.grid}>
@@ -321,44 +487,49 @@ export function NumapRexInfernusPillarSolver() {
 
       <div className={styles.actions}>
         <button type="button" className={styles.solveButton} onClick={handleSolve}>
-          Solve Puzzle
+          Solve Single Target
+        </button>
+        <button type="button" className={styles.solveButton} onClick={handleSolveAllTargets}>
+          Solve All Targets Route
         </button>
         <button type="button" className={styles.resetButton} onClick={handleReset}>
           Reset
         </button>
       </div>
 
-      {warning && <p className={styles.warning}>{warning}</p>}
+      {singleWarning && <p className={styles.warning}>{singleWarning}</p>}
+      {routeWarning && <p className={styles.warning}>{routeWarning}</p>}
 
-      {solution && (
+      {singleSolution && (
         <section className={styles.result}>
+          <h4 className={styles.sequenceTitle}>Single Target Solution</h4>
           <div className={styles.summary}>
             <div className={styles.stat}>
-              <span className={styles.statValue}>{counts.A}</span>
+              <span className={styles.statValue}>{singleCounts.A}</span>
               <span className={styles.statLabel}>Push A</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statValue}>{counts.B}</span>
+              <span className={styles.statValue}>{singleCounts.B}</span>
               <span className={styles.statLabel}>Push B</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statValue}>{counts.C}</span>
+              <span className={styles.statValue}>{singleCounts.C}</span>
               <span className={styles.statLabel}>Push C</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statValue}>{counts.switches}</span>
+              <span className={styles.statValue}>{singleCounts.switches}</span>
               <span className={styles.statLabel}>Switches</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statValue}>{solution.length}</span>
+              <span className={styles.statValue}>{singleSolution.length}</span>
               <span className={styles.statLabel}>Total Actions</span>
             </div>
           </div>
 
           <h4 className={styles.sequenceTitle}>Exact Lever Sequence</h4>
           <div className={styles.sequence}>
-            {solution.length > 0 ? (
-              solution.map((step, index) => (
+            {singleSolution.length > 0 ? (
+              singleSolution.map((step, index) => (
                 <div key={`step-${index + 1}`} className={styles.step}>
                   <span className={styles.stepNumber}>{index + 1}.</span>
                   {step.type === 'pull' ? (
@@ -370,6 +541,63 @@ export function NumapRexInfernusPillarSolver() {
               ))
             ) : (
               <div className={styles.step}>Already solved. No actions needed.</div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {routeSolution && (
+        <section className={styles.result}>
+          <h4 className={styles.sequenceTitle}>All Four Targets Route (Fastest)</h4>
+          <div className={styles.summary}>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{routeCounts.A}</span>
+              <span className={styles.statLabel}>Push A</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{routeCounts.B}</span>
+              <span className={styles.statLabel}>Push B</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{routeCounts.C}</span>
+              <span className={styles.statLabel}>Push C</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{routeCounts.switches}</span>
+              <span className={styles.statLabel}>Switches</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{routeSolution.length}</span>
+              <span className={styles.statLabel}>Total Actions</span>
+            </div>
+          </div>
+
+          <div className={styles.sequence}>
+            {routeMilestones.map((milestone) => (
+              <div key={`milestone-${milestone.id}`} className={styles.step}>
+                <span className={styles.stepNumber}>Hit</span>
+                <span>
+                  {milestone.label} at action {milestone.actionNumber}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <h4 className={styles.sequenceTitle}>Exact Action Sequence</h4>
+          <div className={styles.sequence}>
+            {routeSolution.length > 0 ? (
+              routeSolution.map((step, index) => (
+                <div key={`route-step-${index + 1}`} className={styles.step}>
+                  <span className={styles.stepNumber}>{index + 1}.</span>
+                  {step.type === 'pull' ? (
+                    <span>Push Pillar {step.lever}</span>
+                  ) : (
+                    <span>Flip direction to {directionLabel(step.nextDirection)}</span>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className={styles.step}>All four targets are already satisfied.</div>
             )}
           </div>
         </section>
