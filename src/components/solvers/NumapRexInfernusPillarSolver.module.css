@@ -394,6 +394,16 @@
   font-weight: 700;
 }
 
+.stepHit {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.hitMarker {
+  color: #4caf50;
+  font-weight: 600;
+}
+
 .stepNumber {
   color: var(--color-accent);
   font-weight: 700;

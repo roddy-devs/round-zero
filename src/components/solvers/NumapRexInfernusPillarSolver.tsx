@@ -588,33 +588,33 @@ export function NumapRexInfernusPillarSolver() {
             </div>
           </div>
 
-          <div className={styles.sequence}>
-            {routeMilestones.map((milestone) => (
-              <div key={`milestone-${milestone.id}`} className={styles.step}>
-                <span className={styles.stepNumber}>Hit</span>
-                <span>
-                  {milestone.label} at action {milestone.actionNumber}
-                </span>
-              </div>
-            ))}
-          </div>
-
           <h4 className={styles.sequenceTitle}>Exact Action Sequence</h4>
           <div className={styles.sequence}>
             {routeSolution.length > 0 ? (
-              routeSolution.map((step, index) => (
-                <div
-                  key={`route-step-${index + 1}`}
-                  className={`${styles.step} ${step.type === 'switch' ? styles.stepDirection : ''}`}
-                >
-                  <span className={styles.stepNumber}>{index + 1}.</span>
-                  {step.type === 'pull' ? (
-                    <span>Push Pillar {step.lever}</span>
-                  ) : (
-                    <span>🔄 Switch to {directionLabel(step.nextDirection)}</span>
-                  )}
-                </div>
-              ))
+              routeSolution.map((step, index) => {
+                const actionNumber = index + 1;
+                const targetsHit = routeMilestones.filter((m) => m.actionNumber === actionNumber);
+                return (
+                  <div
+                    key={`route-step-${actionNumber}`}
+                    className={`${styles.step} ${step.type === 'switch' ? styles.stepDirection : ''} ${targetsHit.length > 0 ? styles.stepHit : ''}`}
+                  >
+                    <span className={styles.stepNumber}>{actionNumber}.</span>
+                    <span>
+                      {step.type === 'pull' ? (
+                        <>Push Pillar {step.lever}</>
+                      ) : (
+                        <>🔄 Switch to {directionLabel(step.nextDirection)}</>
+                      )}
+                      {targetsHit.length > 0 && (
+                        <span className={styles.hitMarker}>
+                          {' '}✓ Hit {targetsHit.map((m) => m.label).join(', ')}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                );
+              })
             ) : (
               <div className={styles.step}>All four targets are already satisfied.</div>
             )}
