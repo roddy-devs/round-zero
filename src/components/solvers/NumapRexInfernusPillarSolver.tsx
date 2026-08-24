@@ -457,6 +457,9 @@ export function NumapRexInfernusPillarSolver() {
           <div className={`${styles.lane} ${styles.laneA}`} />
           <div className={`${styles.lane} ${styles.laneB}`} />
           <div className={`${styles.lane} ${styles.laneC}`} />
+
+          <div className={`${styles.directionArrow} ${styles[`directionArrow${direction === 'clockwise' ? 'Clockwise' : 'Counterclockwise'}` as keyof typeof styles]}`} />
+
           {POSITIONS.map((position, index) => (
             <div
               key={`slot-${position.id}`}
@@ -481,7 +484,12 @@ export function NumapRexInfernusPillarSolver() {
             );
           })}
 
-          <div className={styles.centerLabel}>3 Pillars | 6 Positions</div>
+          <div className={styles.centerLabel}>
+            <div>3 Pillars | 6 Positions</div>
+            <div className={styles.directionLabel}>
+              {direction === 'counterclockwise' ? '↺ CCW' : '↻ CW'}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -530,12 +538,15 @@ export function NumapRexInfernusPillarSolver() {
           <div className={styles.sequence}>
             {singleSolution.length > 0 ? (
               singleSolution.map((step, index) => (
-                <div key={`step-${index + 1}`} className={styles.step}>
+                <div
+                  key={`step-${index + 1}`}
+                  className={`${styles.step} ${step.type === 'switch' ? styles.stepDirection : ''}`}
+                >
                   <span className={styles.stepNumber}>{index + 1}.</span>
                   {step.type === 'pull' ? (
                     <span>Push Pillar {step.lever}</span>
                   ) : (
-                    <span>Flip direction to {directionLabel(step.nextDirection)}</span>
+                    <span>🔄 Switch to {directionLabel(step.nextDirection)}</span>
                   )}
                 </div>
               ))
@@ -587,12 +598,15 @@ export function NumapRexInfernusPillarSolver() {
           <div className={styles.sequence}>
             {routeSolution.length > 0 ? (
               routeSolution.map((step, index) => (
-                <div key={`route-step-${index + 1}`} className={styles.step}>
+                <div
+                  key={`route-step-${index + 1}`}
+                  className={`${styles.step} ${step.type === 'switch' ? styles.stepDirection : ''}`}
+                >
                   <span className={styles.stepNumber}>{index + 1}.</span>
                   {step.type === 'pull' ? (
                     <span>Push Pillar {step.lever}</span>
                   ) : (
-                    <span>Flip direction to {directionLabel(step.nextDirection)}</span>
+                    <span>🔄 Switch to {directionLabel(step.nextDirection)}</span>
                   )}
                 </div>
               ))
