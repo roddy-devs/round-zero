@@ -297,7 +297,7 @@ function milestoneLabels(
 function pointForPosition(position: number, laneIndex: number): [number, number] {
   const laneRadiusByIndex = [40, 33, 26];
   const radius = laneRadiusByIndex[laneIndex] ?? laneRadiusByIndex[laneRadiusByIndex.length - 1];
-  const angleDeg = -90 + (position - 1) * 60;
+  const angleDeg = -90 - (position - 1) * 60;
   const angleRad = (angleDeg * Math.PI) / 180;
 
   const left = 50 + radius * Math.cos(angleRad);
