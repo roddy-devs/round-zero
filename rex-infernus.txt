@@ -2,7 +2,158 @@ Rex Infernus Main Easter Egg (Step-by-Step)
 
 This is a cleaned and organized walkthrough based on the original notes.
 
+## Initial Setup
 
+1. Spawn in and go through the first door
+2. Wait for the phone to ring and answer it
+3. A teleporter will appear in front of you
+4. Before teleporting, look up and shoot down the basketball
+5. Take the teleporter and place the world seed in the center of the pedestal
+
+## Dread Skulls & Flames
+
+- Two dread skulls become available
+- Shoot each skull and follow it to its temple
+- Keep shooting it as you're able
+- When destroyed, your screen flashes white and you receive the flame
+- Two braziers appear (marked on screen) where you throw the flame
+- Repeat for the second dread skull
+
+## Activate Pack-a-Punch
+
+- Turn the dials (one on each side = 4 total)
+- Turn all four to activate Pack-a-Punch
+
+## Caltheris's Temple
+
+1. Enter temple and look to your left
+2. Four pressure plates on ground (first one risen)
+3. Stand on a plate WITHOUT moving off it
+4. Shoot four targets
+5. Second plate rises; repeat until all four plates complete
+6. Open compartment to find lantern
+7. Interact with lantern → orbs spawn around map
+
+## Dravakar's Temple - Get Fracture and open the Forge
+
+1. Enter and turn around to look up
+2. Alcove above entrance (grapple or wall jump)
+3. Grapple is faster
+4. Find crack in wall (right side, facing entrance)
+5. Throw grenade/PHD Flop at crack
+6. Collect Nyxara's Fracture
+7. Go to next door in temple
+8. Blue writing on wall = dial instructions
+9. Interact and follow the solver for how many times to turn switches
+10. Use solver tool for exact sequence
+
+## Nyxara's Temple - Solve Switches
+1. Open both doors
+2. Turn right (facing the eye at back of room)
+3. Dial above rubble (use Void Gun to adjust)
+
+**Dial Configuration:**
+- Dial 1: Middle
+- Dial 2: Pointing right
+- Dial 3: Pointing left
+- Dial 4: Pointing right
+- Dial 5: Middle (place Fracture from Dravakar here)
+- Dial 6: Middle
+- Dial 7: Pointing left
+
+*Note: Wall jump to dial 5 to place fracture without Void Gun*
+
+## Nexus Forge & Flames
+
+1. Use Void Gun to pull orb into Nexus Forge center
+2. Orb spirals around forge
+3. Turn dial/turn forge
+4. Purple flames fill braziers near Nexus fracture
+
+## The Eye Shot
+
+1. Take flame from brazier
+2. Go to Nixara's Sanctuary (back of room with eye)
+3. Shoot eye with flame
+4. Use Grapple Gun or Void Gun to get there quickly
+5. Walking is possible but tight time window
+
+## Laser Door & Spider Room
+
+1. With correct dial alignment and Fracture placed, laser door opens
+2. Enter newly opened room
+3. Walk to orb → orb shocks you and drops you down
+4. Kill spiders
+5. Walk toward tree
+
+## Soulbox Step (YOU are the soulbox)
+
+- Your health drains throughout
+- Recommended: Have Quick Revive and/or Jug equipped
+- Not required, but makes it easier
+
+## Tree Fruit Collection
+
+- Round 8+ required to interact with tree
+- Tree has fruit inside (interact to collect)
+- Three collection points in forest (auto-teleports between)
+- Teleport locations change direction to look, but item locations stay same
+- Tip: Hold A+direction, interact, or move+hold to skip animations
+There'll be three spots where you can grab the three parts that you have to grab:
+1. By what looks like a cabin on the floor to the left of the body. You'll melee the floorboard, and a cutscene will start. You'll find the first part there.
+2. In the middle of the forest, on that same rock that the ammo crate is attached to. You will interact with the body. You'll find the second part there.
+3. If you go to the back of the forest, you will find the third part. You'll find a body on the ground. That'll be where the third part is.
+
+## Get Wonder Weapon
+
+1. After collecting third part, teleported back to tree
+2. Go to Dravakar Sanctuary (where you flipped switches)
+3. Use Void Claw to spring-launch yourself up
+4. Reach Dravakar's Forge
+5. Interact with forge
+6. Forge crafts your wonder weapon 
+Before you go into the forge, you will want to equip shatter blast on your gun because there will be four shields up there that you'll need to potentially get a shatter blast activation on:
+- One will reveal a hammer. That's the part that you need.
+- Another one will reveal a lightman ammo mod.
+- The other one will reveal a shadow rift ammo mod.
+- The other one will reveal a self-revive.
+
+Additionally, every round you can go to Driver Car's Forge and take a weapon and place it on the forge. Driver Car will remove the rarity, leaving an Ether tool on the ground. If the weapon has a pack-a-punch level on it, it will place a pack-a-punch crystal on the ground corresponding with what level the weapon was, making using the arsenal for upgrading your weapon's rarity very moot. 
+
+Each round, after you're shooting the basketball down from the house, you will have seen symbols show up on the house. One symbol each round. You will need to pay attention to those symbols and the order in which they appeared.
+
+Once you have an Excel round, you want to shoot those symbols in the order they appeared, and then go into Xfil. It will spawn an HVT, and once you kill the HVT, you will go through the Xfil booth, and it will take you back to the house. You'll see the girls playing on the ground. You can interact with them, and it will give you a free pack of punch crystal on the ground.
+
+Then you'll go upstairs all the way to the back. You will do the charge shot of the wonder weapon into the toilet, and the Eye of the Forge will come out of the toilet. You will have to do a lockdown where there will be Doppelgas and Ravagers appearing. You'll kill all of them, and then, once you've done so, you will get a phone call. You'll be able to take the phone call, and it'll open up the teleporter to go back to the map. 
+
+At that point, you will need to interact with a Void Gun pedestal, and that will upgrade that pedestal's Void Gun, turning it into the Void Talon. Once you have the Void Talon, it will allow you to use that Void Gun for double the time, or I guess longer.
+
+You'll need to go down to the bottom of the forge, or go around the Void or the middle of the map, and look for three pillars. You'll need to remove the squares with eyes on them with the Void Gun, then go downstairs and remove the squares from the wall. It'll reveal the back of the forge. There will be spiders that spawn. You'll do that on both sides, and then you will need to either use a charge shot or use a grenade to break up the spider webs.
+
+Now you will want to not turn the dials. You'll have the three pillars that you'll need to interact with, and you'll need them to be lined up so that you can go and cleanse the temple.
+
+You can do this before or after you get the pillars aligned. You will have already grabbed Javacar's hammer. You'll grab the Shimmering Thread for Caltharis by using the Void Gun, whether that's the upgraded one or the regular one, to pull in orbs and interact. Eventually, it'll drop the thread. Additionally, you could go to the lantern in Caltharis's sanctuary and interact with the lantern, and you can interact with the orbs as they're coming out, so you don't have to chase them.
+
+The other part for Veytharion: you can only get it while it is raining, and it will be in one of three spots. I'll show the three spots, or the three spots will be by Jug, by PhD, and by Widows Wine. Again, you can only get it when it's raining.
+
+The fourth part that you'll need is the scroll, and you'll be able to get it by having Shadow Rift equipped on your gun. You'll go into the forest, and you will train the zombies. You will try to get a Shadow Rift activation with as many zombies as possible being killed. If you are getting a Shadow Rift activation and it's only killing one zombie, you will be in there forever, so you want to make sure that you're killing as many zombies as possible with your Shadow Rift activation. Eventually, the scroll will drop.
+
+For each temple, you will take the item and place it inside the temple's brazier. You will pull an orb to the center of the forge, and you will turn the forge wheel on the forge. It will put two purple flames in the brazier, not at spawn, but in the forge or at the nexus forge. You'll take those flames and light the brazier in the respective temple's area that you have the pillars aligned to.
+
+You will bring a zombie over, and it will become infected. You will take the infected zombie to the trap that's on the same side of the map as it. If you have Dravakar's temple or Caltheris's temple, you'll bring the zombie to Caltheris's trap. If you have Veytharion or Nixara, you'll bring the zombie to Veytharion's trap.
+
+What you'll want to do is activate the trap, but bring the zombie to the middle of the trap so that you won't have to guess which spawn you want it to go to. It'll automatically go to where it needs to go after you activate the trap, and then the shackle or cuff will come off of the Titan. At that time, you will do that for all four temples, and you can do that.
+
+For Calpheorus' temple, there will be a pedestal or a platform on the ground. You will interact with it. She'll say a voice line, and then you will ADS your gun continuously. At that point, eventually, the platform will move and reveal an ocular circle. I guess you'll line it up with the left side of the wall shown here, and then you will kill zombies. The souls will begin to make cracks in the wall if you've done it right, revealing the face of the owner of the temple. You'll shoot the owner of the temple in the face, and it will spawn four soul beings. You'll want to kill all four of them, and then you'll go back and shoot the face again.
+
+It'll be the same thing for the other three temples, but for Driver Cars' temple, you'll need to interact with the plate and replate yourself while standing on the plate after interacting with it. For Veytharion, you'll just need to do the same thing but jump repeatedly, and for Nixara, you will need to lie prone on the plate after interacting with it and then align the lasers accordingly. I'll show the lineups for those.
+
+Once you've completed all four of them, you will need to make sure that you have taken an orb and placed it underneath, essentially, the chin of each of the temples, like the boss's face. You will do a charge shot of the wonder weapon, causing the orb to go into its forehead. You will then need to take an orb and put it in the middle of the forge and turn the wheel. Two more flames will appear in the brazier, and then you'll need to hit them in the forehead with it during a round where it is raining. You can do this on a spider round, or if you go to Veytharion's temple and you open the first door and you look to the left, you will see a puzzle. There will be four blocks available around the map, around Veytharion's temple. I can show you the locations, and to solve it, you essentially need to make the order from the bottom to the top: water, plant, hand, fire. In short, the easiest way to think about this is you want water on the bottom, and you want the fire to only touch the hand. I think at that point, it is pretty simple to do.
+
+Upon opening that area, you will get a free perk, and then you interact with the fountain, and that will cause rain to occur on the next round, so you can interact with it every round if you need to. 
+You will then go back upstairs and turn the wheel. As soon as you turn it, you'll want to run back down and turn the dial that's on the ground, and that will allow you to start moving the pillars. It is time-based, so you will want to move quickly. 
+
+Then you will be able to take the fire during the rain round, or the round that you have rained, and you will hit the boss in the forehead with the flame. It will cause a lightning strike. You'll do that for all the bosses. The pillars do not have to be aligned for you to do the lightning strike, so you can, in theory, be doing a lockdown for a temple while it is raining and shooting the flame at another boss's forehead. While aligning the pillars with a different temple, you could, in theory, be doing three pillars at the same time, depending on what step you're on. Once you're done with doing all four temples, you will just need to get ready for the boss fight. You'll go down below the Nexus Forge, and there'll be four platforms. You can stand on any of them, but if you're playing a co-op game, everybody will need to stand on an orb to be able to activate the boss fight. 
 Once we've opened up pack a punch, w
 we go to Caltheris,
 grab the second MR peeks part, 
