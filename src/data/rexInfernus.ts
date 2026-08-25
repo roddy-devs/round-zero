@@ -4,7 +4,7 @@ export const rexInfernus: MapData = {
   slug: 'rex-infernus',
   name: 'Rex Infernus',
   game: 'Black Ops 7',
-  subtitle: 'Main Quest In Progress',
+  subtitle: 'Cleanse the Shadow Smith\'s place of power.',
   description:
     "As reality stands on the cusp of destruction, the crew face their ultimate challenge. Cleanse the Shadowsmith places of power, find the Warden's inner sanctum, and put an end to his loathsome existence.",
   wonderWeapon: {
@@ -27,17 +27,41 @@ export const rexInfernus: MapData = {
     name: 'Rex Infernus Main Quest',
     sections: [
       {
+        id: 'mq-symbol-tracking',
+        title: '🔴 CRITICAL: Symbol Tracking Instructions',
+        steps: [
+          {
+            id: 'mq-0',
+            text: '📍 IMPORTANT: Throughout the quest, symbols will appear on the house after each round change (when you shoot the basketball).',
+            isNote: true,
+          },
+          {
+            id: 'mq-0b',
+            text: '✅ DO: Write down the order symbols appear (Rounds 1, 2, 3, 4, etc.)',
+            isNote: true,
+          },
+          {
+            id: 'mq-0c',
+            text: '❌ DO NOT: Shoot the symbols yet! You will shoot them ONLY during an Exfil round, in the exact order they appeared.',
+            isNote: true,
+          },
+          {
+            id: 'mq-0d',
+            text: 'You\'ll need the symbol order later for a critical step, so make sure you track them from the very beginning!',
+            isNote: true,
+          },
+        ],
+      },
+      {
         id: 'mq-setup',
-        title: 'Initial Setup & Symbol Tracking Begins',
+        title: 'Initial Setup',
         steps: [
           { id: 'mq-1', text: 'Spawn in and go through the first door.' },
           { id: 'mq-2', text: 'Wait for the phone to ring and answer it.' },
-          { id: 'mq-3', text: 'Before teleporting, look up and shoot down the basketball.' },
           {
-            id: 'mq-3b',
-            text: '⚠️ START TRACKING SYMBOLS NOW: From this point forward, a new symbol appears on the house each round after you shoot the basketball.',
-            details: 'You MUST record the exact order symbols appear in, as you\'ll need to shoot them in this same order during an Exfil round later.',
-            isNote: true,
+            id: 'mq-3',
+            text: 'Before teleporting, look up and shoot down the basketball.',
+            details: '⚠️ HUGE NOTE: After you shoot this basketball, symbols will BEGIN appearing on the house each round. Start paying attention NOW and record the order they appear!',
           },
           { id: 'mq-4', text: 'Take the teleporter and place the world seed in the center of the pedestal.' },
           { id: 'mq-5', text: 'Two dread skulls become available — shoot each and follow to their temple.' },
@@ -49,7 +73,7 @@ export const rexInfernus: MapData = {
         id: 'mq-pack-a-punch',
         title: 'Activate Pack-a-Punch',
         steps: [
-          { id: 'mq-8', text: 'Turn all four dials (one on each side).' },
+          { id: 'mq-8', text: 'Turn both dials.' },
           { id: 'mq-9', text: 'Pack-a-Punch is now activated.' },
         ],
       },
@@ -94,11 +118,11 @@ export const rexInfernus: MapData = {
         ],
       },
       {
-        id: 'mq-nyxara-dials',
-        title: 'Nyxara\'s Temple - Dial Configuration',
+        id: 'mq-nixara-dials',
+        title: 'Nixara\'s Temple - Dial Configuration',
         steps: [
-          { id: 'mq-24', text: 'Open both doors in Nyxara\'s temple.', location: 'Nyxara Temple' },
-          { id: 'mq-25', text: 'Turn right (facing the eye at back of room) and see dial above rubble.' },
+          { id: 'mq-24', text: 'Open both doors in Nixara\'s temple.', location: 'Nixara Temple' },
+          { id: 'mq-25', text: 'Turn right (facing the eye at back of room) and find the first dial in the back above the rubble.' },
           {
             id: 'mq-26',
             text: 'Dial Configuration:',
@@ -172,12 +196,17 @@ export const rexInfernus: MapData = {
       },
       {
         id: 'mq-rarity-exchange',
-        title: 'Weapon Rarity Exchange',
+        title: 'Weapon Rarity Exchange (Optional)',
         steps: [
           {
             id: 'mq-48',
-            text: 'Every round: Go to Dravakar\'s Forge and place a weapon on it.',
-            details: 'Removes rarity, drops Ether tool. Pack-a-Punch weapons drop crystals.',
+            text: 'Optional: Go to Dravakar\'s Forge and place a weapon on it.',
+            details: 'You don\'t have to go there every round, but you can. Removes rarity, drops Ether tool. Pack-a-Punch weapons drop crystals.',
+          },
+          {
+            id: 'mq-48b',
+            text: 'Suggestion: Be ready with all symbols collected by round 11 (or the next Exfil round you\'re targeting).',
+            isNote: true,
           },
         ],
       },
@@ -194,6 +223,27 @@ export const rexInfernus: MapData = {
           { id: 'mq-57', text: 'Eye of the Forge emerges from toilet.' },
           { id: 'mq-58', text: 'Lockdown: Kill all Doppelghasts and Ravagers.' },
           { id: 'mq-59', text: 'Receive phone call — teleporter opens back to map.' },
+        ],
+      },
+      {
+        id: 'mq-symbol-catchup',
+        title: 'Symbol Tracking Catch-Up (If You Miss Rounds)',
+        steps: [
+          {
+            id: 'mq-59b',
+            text: 'If you miss tracking symbols for 1-2 rounds: Pop a round off and shoot all the symbols you know.',
+            isNote: true,
+          },
+          {
+            id: 'mq-59c',
+            text: 'The symbols will reset and you can start fresh tracking from that point.',
+            isNote: true,
+          },
+          {
+            id: 'mq-59d',
+            text: 'When you reach an Exfil round (11, 16, 21, etc.), you\'ll have all the symbols you need for that round.',
+            isNote: true,
+          },
         ],
       },
       {
@@ -269,22 +319,37 @@ export const rexInfernus: MapData = {
       },
       {
         id: 'mq-rain-puzzle',
-        title: 'Unlock Rain (Veytharion Puzzle)',
+        title: 'Unlock Rain (Veytharion Puzzle - Optional)',
         steps: [
-          { id: 'mq-82', text: 'Go to Veytharion\'s temple and open first door.' },
-          { id: 'mq-83', text: 'Look left for block puzzle (four blocks around Veytharion temple area).' },
           {
-            id: 'mq-84',
+            id: 'mq-82',
+            text: 'Optional: Unlock rain by solving Veytharion\'s puzzle (needed if boss lightning strikes must happen during a specific round).',
+            isNote: true,
+          },
+          { id: 'mq-83', text: 'Go to Veytharion\'s temple and open first door.' },
+          { id: 'mq-84', text: 'Look left for block puzzle (four blocks around Veytharion temple area).' },
+          {
+            id: 'mq-85',
             text: 'Stack order (bottom to top): Water → Plant → Hand → Fire',
             details: 'Water on bottom, fire only touches hand.',
           },
-          { id: 'mq-85', text: 'Interact with fountain — rain occurs on next round (repeatable each round).' },
+          { id: 'mq-86', text: 'Interact with fountain — rain occurs on next round (repeatable each round).' },
+          {
+            id: 'mq-86b',
+            text: 'Note: You can do other steps during spider rounds and don\'t have to activate rain immediately if not needed.',
+            isNote: true,
+          },
         ],
       },
       {
         id: 'mq-boss-strikes',
         title: 'Boss Lightning Strikes & Final Cleansing',
         steps: [
+          {
+            id: 'mq-92b',
+            text: '⚠️ CRITICAL: Boss lightning strikes MUST occur during a raining round. Make sure rain is active.',
+            isNote: true,
+          },
           { id: 'mq-86', text: 'Place orb underneath chin of each boss (face area).' },
           { id: 'mq-87', text: 'Charge shot wonder weapon at orb — goes into forehead.' },
           { id: 'mq-88', text: 'Pull orb to forge center and turn wheel.' },
