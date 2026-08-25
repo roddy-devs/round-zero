@@ -28,11 +28,17 @@ export const rexInfernus: MapData = {
     sections: [
       {
         id: 'mq-setup',
-        title: 'Initial Setup & Dread Skulls',
+        title: 'Initial Setup & Symbol Tracking Begins',
         steps: [
           { id: 'mq-1', text: 'Spawn in and go through the first door.' },
           { id: 'mq-2', text: 'Wait for the phone to ring and answer it.' },
           { id: 'mq-3', text: 'Before teleporting, look up and shoot down the basketball.' },
+          {
+            id: 'mq-3b',
+            text: '⚠️ START TRACKING SYMBOLS NOW: From this point forward, a new symbol appears on the house each round after you shoot the basketball.',
+            details: 'You MUST record the exact order symbols appear in, as you\'ll need to shoot them in this same order during an Exfil round later.',
+            isNote: true,
+          },
           { id: 'mq-4', text: 'Take the teleporter and place the world seed in the center of the pedestal.' },
           { id: 'mq-5', text: 'Two dread skulls become available — shoot each and follow to their temple.' },
           { id: 'mq-6', text: 'Keep shooting each skull as you\'re able. Screen flashes white when destroyed.' },
@@ -166,15 +172,13 @@ export const rexInfernus: MapData = {
       },
       {
         id: 'mq-rarity-exchange',
-        title: 'Weapon Rarity Exchange & House Symbols',
+        title: 'Weapon Rarity Exchange',
         steps: [
           {
             id: 'mq-48',
             text: 'Every round: Go to Dravakar\'s Forge and place a weapon on it.',
             details: 'Removes rarity, drops Ether tool. Pack-a-Punch weapons drop crystals.',
           },
-          { id: 'mq-49', text: 'Each round after shooting basketball: A symbol appears on house.' },
-          { id: 'mq-50', text: 'Pay attention to order symbols appear (required for later step).' },
         ],
       },
       {
