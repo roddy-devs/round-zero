@@ -1,0 +1,112 @@
+.solver {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.dialList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dialItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.dialItem strong {
+  color: var(--color-accent);
+}
+
+.pianoCode {
+  display: inline-block;
+  width: fit-content;
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-accent-dim);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-accent);
+  font-family: monospace;
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.codeInputs {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.symbolInput {
+  width: 52px;
+  height: 56px;
+  border: 2px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  font-family: monospace;
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.symbolInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.clearButton {
+  align-self: flex-start;
+  padding: var(--space-sm) var(--space-lg);
+  border: 1px solid var(--color-border-hover);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-hover);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clearButton:hover {
+  border-color: var(--color-text-muted);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 640px) {
+  .dialList {
+    grid-template-columns: 1fr;
+  }
+}

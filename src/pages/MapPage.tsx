@@ -18,6 +18,7 @@ import {
   PlanetAlignmentSolver,
   MarsCodeSolver,
   RexInfernusSolver,
+  RexInfernusCodesSolver,
   NumapRexInfernusPillarSolver,
 } from '../components/solvers';
 import styles from './MapPage.module.css';
@@ -111,6 +112,8 @@ export function MapPage() {
       {map.slug === 'rex-infernus' && (
         <div className={styles.solversList}>
           <RexInfernusSolver />
+          <hr className={styles.solverDivider} />
+          <RexInfernusCodesSolver />
           <hr className={styles.solverDivider} />
           <NumapRexInfernusPillarSolver />
         </div>
