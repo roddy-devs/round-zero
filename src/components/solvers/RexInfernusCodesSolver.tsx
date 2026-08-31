@@ -69,9 +69,7 @@ export function RexInfernusCodesSolver() {
 
       <section className={styles.section}>
         <h3 className={styles.title}>House Code</h3>
-        <p className={styles.description}>
-          Record the four house symbols. Use M (Mike Diaz and Dog), H (Hotel), U (Uniform), or D.
-        </p>
+        <p className={styles.description}>Record the four house symbols.</p>
         <div className={styles.codeInputs} aria-label="Four-character house code">
           {houseCode.map((symbol, index) => (
             <input
