@@ -250,7 +250,7 @@ export function RelicCalculatorPage() {
                             </button>
                             <div className={styles.selectedInfo}>
                               <span className={styles.selectedName}>{r.name}</span>
-                              <span className={styles.selectedMeta}>{r.map}</span>
+                              <span className={styles.selectedMeta}>{r.effect}</span>
                             </div>
                             <span className={styles.selectedPoints}>
                               {r.points}pt{r.points !== 1 ? 's' : ''}
