@@ -65,6 +65,16 @@ export function Layout() {
               </div>
             );
           })}
+
+          <span className={`${styles.navLabel} ${styles.navLabelTools}`}>Tools</span>
+          <NavLink
+            to="/relic-calculator"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+            }
+          >
+            Relic Calculator
+          </NavLink>
         </nav>
       </aside>
 
