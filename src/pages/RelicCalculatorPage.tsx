@@ -35,6 +35,7 @@ function RelicRow({
         checked={selected}
         onChange={() => onToggle(relic.id)}
       />
+      {selected && <span className={styles.relicCheck} aria-hidden="true">✓</span>}
       <div className={styles.relicBody}>
         <div className={styles.relicTop}>
           <span className={styles.relicName}>{relic.name}</span>
@@ -54,6 +55,7 @@ export function RelicCalculatorPage() {
   const [mapFilter, setMapFilter] = useState<MapFilter>('all');
   const [tierFilter, setTierFilter] = useState<TierFilter>('all');
   const [mobileListOpen, setMobileListOpen] = useState(false);
+  const [selectedOnly, setSelectedOnly] = useState(false);
 
   const toggle = (id: string) => {
     setSelected((prev) => {
@@ -69,9 +71,10 @@ export function RelicCalculatorPage() {
       bo7Relics.filter(
         (r) =>
           (mapFilter === 'all' || r.map === mapFilter) &&
-          (tierFilter === 'all' || r.tier === tierFilter),
+          (tierFilter === 'all' || r.tier === tierFilter) &&
+          (!selectedOnly || selected.size === 0 || selected.has(r.id)),
       ),
-    [mapFilter, tierFilter],
+    [mapFilter, tierFilter, selectedOnly, selected],
   );
 
   const selectedRelics = useMemo(
@@ -151,6 +154,17 @@ export function RelicCalculatorPage() {
                 ))}
               </div>
             </div>
+            <div className={styles.filterGroup}>
+              <span className={styles.filterLabel}>View</span>
+              <button
+                className={`${styles.chip} ${selectedOnly ? styles.chipActive : ''}`}
+                onClick={() => setSelectedOnly((v) => !v)}
+                disabled={selectedRelics.length === 0}
+              >
+                {selectedOnly ? '✓ ' : ''}Selected only
+                {selectedRelics.length > 0 ? ` (${selectedRelics.length})` : ''}
+              </button>
+            </div>
           </section>
 
           {/* ─── Relic grid ─── */}
@@ -213,21 +227,41 @@ export function RelicCalculatorPage() {
                 No relics selected yet. Tick relics on the left to build your loadout.
               </p>
             ) : (
-              <ul className={styles.selectedList}>
-                {selectedRelics.map((r) => (
-                  <li key={r.id} className={styles.selectedItem}>
-                    <button
-                      className={styles.removeButton}
-                      onClick={() => toggle(r.id)}
-                      aria-label={`Remove ${r.name}`}
-                    >
-                      ×
-                    </button>
-                    <span className={`${styles.tierDot} ${TIER_CLASS[r.tier]}`} />
-                    <span className={styles.selectedName}>{r.name}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className={styles.selectedGroups}>
+                {tiers.map((tier) => {
+                  const group = selectedRelics.filter((r) => r.tier === tier);
+                  if (group.length === 0) return null;
+                  return (
+                    <div key={tier} className={styles.selectedGroup}>
+                      <div className={`${styles.selectedGroupHeader} ${TIER_CLASS[tier]}`}>
+                        <span className={`${styles.tierDot} ${TIER_CLASS[tier]}`} />
+                        <span className={styles.selectedGroupLabel}>{TIER_LABELS[tier]}</span>
+                        <span className={styles.selectedGroupCount}>{group.length}</span>
+                      </div>
+                      <ul className={styles.selectedList}>
+                        {group.map((r) => (
+                          <li key={r.id} className={styles.selectedItem}>
+                            <button
+                              className={styles.removeButton}
+                              onClick={() => toggle(r.id)}
+                              aria-label={`Remove ${r.name}`}
+                            >
+                              ×
+                            </button>
+                            <div className={styles.selectedInfo}>
+                              <span className={styles.selectedName}>{r.name}</span>
+                              <span className={styles.selectedMeta}>{r.map}</span>
+                            </div>
+                            <span className={styles.selectedPoints}>
+                              {r.points}pt{r.points !== 1 ? 's' : ''}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </aside>
