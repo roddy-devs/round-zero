@@ -106,116 +106,149 @@ export function RelicCalculatorPage() {
       </header>
 
       <div className={styles.body}>
-        {/* ─── Tally summary ─── */}
-        <section className={styles.summary}>
-          <div className={styles.statCard}>
-            <span className={styles.statValue}>{totals.total}</span>
-            <span className={styles.statLabel}>Total Points</span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statValue}>{totals.count}</span>
-            <span className={styles.statLabel}>Relics Equipped</span>
-          </div>
-          <div className={`${styles.statCard} ${styles.tier1}`}>
-            <span className={styles.statValue}>{totals.tier1}</span>
-            <span className={styles.statLabel}>Tier 1 Points</span>
-          </div>
-          <div className={`${styles.statCard} ${styles.tier2}`}>
-            <span className={styles.statValue}>{totals.tier2}</span>
-            <span className={styles.statLabel}>Tier 2 Points</span>
-          </div>
-          <div className={`${styles.statCard} ${styles.tier3}`}>
-            <span className={styles.statValue}>{totals.tier3}</span>
-            <span className={styles.statLabel}>Tier 3 Points</span>
-          </div>
-        </section>
-
-        {/* ─── Selected relics list ─── */}
-        {selectedRelics.length > 0 && (
-          <section className={styles.selectedPanel}>
-            <div className={styles.selectedHeader}>
-              <h2 className={styles.selectedTitle}>Selected Relics</h2>
-              <button className={styles.clearButton} onClick={() => setSelected(new Set())}>
-                Clear all
-              </button>
-            </div>
-            <ul className={styles.selectedList}>
-              {selectedRelics.map((r) => (
-                <li key={r.id} className={styles.selectedItem}>
+        {/* ─── Main column: filters + relic grid ─── */}
+        <div className={styles.main}>
+          {/* ─── Filters ─── */}
+          <section className={styles.filters}>
+            <div className={styles.filterGroup}>
+              <span className={styles.filterLabel}>Map</span>
+              <div className={styles.chips}>
+                <button
+                  className={`${styles.chip} ${mapFilter === 'all' ? styles.chipActive : ''}`}
+                  onClick={() => setMapFilter('all')}
+                >
+                  All
+                </button>
+                {bo7RelicMaps.map((m) => (
                   <button
-                    className={styles.removeButton}
-                    onClick={() => toggle(r.id)}
-                    aria-label={`Remove ${r.name}`}
+                    key={m}
+                    className={`${styles.chip} ${mapFilter === m ? styles.chipActive : ''}`}
+                    onClick={() => setMapFilter(m)}
                   >
-                    ×
+                    {m}
                   </button>
-                  <span className={`${styles.tierDot} ${TIER_CLASS[r.tier]}`} />
-                  <span className={styles.selectedName}>{r.name}</span>
-                  <span className={styles.selectedEffect}>{r.effect}</span>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+            </div>
+            <div className={styles.filterGroup}>
+              <span className={styles.filterLabel}>Tier</span>
+              <div className={styles.chips}>
+                <button
+                  className={`${styles.chip} ${tierFilter === 'all' ? styles.chipActive : ''}`}
+                  onClick={() => setTierFilter('all')}
+                >
+                  All
+                </button>
+                {tiers.map((t) => (
+                  <button
+                    key={t}
+                    className={`${styles.chip} ${tierFilter === t ? styles.chipActive : ''}`}
+                    onClick={() => setTierFilter(t)}
+                  >
+                    {TIER_LABELS[t]}
+                  </button>
+                ))}
+              </div>
+            </div>
           </section>
+
+          {/* ─── Relic grid ─── */}
+          <section className={styles.grid}>
+            {visibleRelics.map((relic) => (
+              <RelicRow
+                key={relic.id}
+                relic={relic}
+                selected={selected.has(relic.id)}
+                onToggle={toggle}
+              />
+            ))}
+            {visibleRelics.length === 0 && (
+              <p className={styles.empty}>No relics match the current filters.</p>
+            )}
+          </section>
+        </div>
+
+        {/* ─── Sticky summary sidebar (desktop) ─── */}
+        <aside className={styles.sidebar}>
+          <div className={styles.sidebarInner}>
+            <section className={styles.summary}>
+              <div className={styles.statCardTotal}>
+                <span className={styles.statValue}>{totals.total}</span>
+                <span className={styles.statLabel}>Total Points</span>
+              </div>
+              <div className={styles.statRow}>
+                <div className={styles.statMini}>
+                  <span className={styles.statMiniValue}>{totals.count}</span>
+                  <span className={styles.statMiniLabel}>Equipped</span>
+                </div>
+                <div className={`${styles.statMini} ${styles.tier1}`}>
+                  <span className={styles.statMiniValue}>{totals.tier1}</span>
+                  <span className={styles.statMiniLabel}>T1</span>
+                </div>
+                <div className={`${styles.statMini} ${styles.tier2}`}>
+                  <span className={styles.statMiniValue}>{totals.tier2}</span>
+                  <span className={styles.statMiniLabel}>T2</span>
+                </div>
+                <div className={`${styles.statMini} ${styles.tier3}`}>
+                  <span className={styles.statMiniValue}>{totals.tier3}</span>
+                  <span className={styles.statMiniLabel}>T3</span>
+                </div>
+              </div>
+            </section>
+
+            <div className={styles.selectedHeader}>
+              <h2 className={styles.selectedTitle}>
+                Selected{selectedRelics.length > 0 ? ` (${selectedRelics.length})` : ''}
+              </h2>
+              {selectedRelics.length > 0 && (
+                <button className={styles.clearButton} onClick={() => setSelected(new Set())}>
+                  Clear all
+                </button>
+              )}
+            </div>
+
+            {selectedRelics.length === 0 ? (
+              <p className={styles.selectedEmpty}>
+                No relics selected yet. Tick relics on the left to build your loadout.
+              </p>
+            ) : (
+              <ul className={styles.selectedList}>
+                {selectedRelics.map((r) => (
+                  <li key={r.id} className={styles.selectedItem}>
+                    <button
+                      className={styles.removeButton}
+                      onClick={() => toggle(r.id)}
+                      aria-label={`Remove ${r.name}`}
+                    >
+                      ×
+                    </button>
+                    <span className={`${styles.tierDot} ${TIER_CLASS[r.tier]}`} />
+                    <span className={styles.selectedName}>{r.name}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </aside>
+      </div>
+
+      {/* ─── Sticky bottom bar (mobile) ─── */}
+      <div className={styles.mobileBar}>
+        <div className={styles.mobileBarStats}>
+          <span className={styles.mobileBarTotal}>{totals.total}</span>
+          <span className={styles.mobileBarLabel}>pts</span>
+          <span className={styles.mobileBarCount}>· {totals.count} equipped</span>
+        </div>
+        <div className={styles.mobileBarTiers}>
+          <span className={styles.tier1}>T1 {totals.tier1}</span>
+          <span className={styles.tier2}>T2 {totals.tier2}</span>
+          <span className={styles.tier3}>T3 {totals.tier3}</span>
+        </div>
+        {selectedRelics.length > 0 && (
+          <button className={styles.clearButton} onClick={() => setSelected(new Set())}>
+            Clear
+          </button>
         )}
-
-        {/* ─── Filters ─── */}
-        <section className={styles.filters}>
-          <div className={styles.filterGroup}>
-            <span className={styles.filterLabel}>Map</span>
-            <div className={styles.chips}>
-              <button
-                className={`${styles.chip} ${mapFilter === 'all' ? styles.chipActive : ''}`}
-                onClick={() => setMapFilter('all')}
-              >
-                All
-              </button>
-              {bo7RelicMaps.map((m) => (
-                <button
-                  key={m}
-                  className={`${styles.chip} ${mapFilter === m ? styles.chipActive : ''}`}
-                  onClick={() => setMapFilter(m)}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className={styles.filterGroup}>
-            <span className={styles.filterLabel}>Tier</span>
-            <div className={styles.chips}>
-              <button
-                className={`${styles.chip} ${tierFilter === 'all' ? styles.chipActive : ''}`}
-                onClick={() => setTierFilter('all')}
-              >
-                All
-              </button>
-              {tiers.map((t) => (
-                <button
-                  key={t}
-                  className={`${styles.chip} ${tierFilter === t ? styles.chipActive : ''}`}
-                  onClick={() => setTierFilter(t)}
-                >
-                  {TIER_LABELS[t]}
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Relic grid ─── */}
-        <section className={styles.grid}>
-          {visibleRelics.map((relic) => (
-            <RelicRow
-              key={relic.id}
-              relic={relic}
-              selected={selected.has(relic.id)}
-              onToggle={toggle}
-            />
-          ))}
-          {visibleRelics.length === 0 && (
-            <p className={styles.empty}>No relics match the current filters.</p>
-          )}
-        </section>
       </div>
     </div>
   );
