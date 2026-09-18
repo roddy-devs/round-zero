@@ -53,6 +53,7 @@ export function RelicCalculatorPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [mapFilter, setMapFilter] = useState<MapFilter>('all');
   const [tierFilter, setTierFilter] = useState<TierFilter>('all');
+  const [mobileListOpen, setMobileListOpen] = useState(false);
 
   const toggle = (id: string) => {
     setSelected((prev) => {
@@ -232,23 +233,74 @@ export function RelicCalculatorPage() {
         </aside>
       </div>
 
-      {/* ─── Sticky bottom bar (mobile) ─── */}
-      <div className={styles.mobileBar}>
-        <div className={styles.mobileBarStats}>
-          <span className={styles.mobileBarTotal}>{totals.total}</span>
-          <span className={styles.mobileBarLabel}>pts</span>
-          <span className={styles.mobileBarCount}>· {totals.count} equipped</span>
-        </div>
-        <div className={styles.mobileBarTiers}>
-          <span className={styles.tier1}>T1 {totals.tier1}</span>
-          <span className={styles.tier2}>T2 {totals.tier2}</span>
-          <span className={styles.tier3}>T3 {totals.tier3}</span>
-        </div>
-        {selectedRelics.length > 0 && (
-          <button className={styles.clearButton} onClick={() => setSelected(new Set())}>
-            Clear
-          </button>
+      {/* ─── Sticky bottom bar + drawer (mobile) ─── */}
+      {mobileListOpen && (
+        <div
+          className={styles.mobileBackdrop}
+          onClick={() => setMobileListOpen(false)}
+        />
+      )}
+      <div className={`${styles.mobileBar} ${mobileListOpen ? styles.mobileBarOpen : ''}`}>
+        {/* Expandable drawer with the selected relics */}
+        {mobileListOpen && (
+          <div className={styles.mobileDrawer}>
+            <div className={styles.mobileDrawerHeader}>
+              <h2 className={styles.selectedTitle}>
+                Selected{selectedRelics.length > 0 ? ` (${selectedRelics.length})` : ''}
+              </h2>
+              {selectedRelics.length > 0 && (
+                <button className={styles.clearButton} onClick={() => setSelected(new Set())}>
+                  Clear all
+                </button>
+              )}
+            </div>
+            {selectedRelics.length === 0 ? (
+              <p className={styles.selectedEmpty}>
+                No relics selected yet. Tick relics above to build your loadout.
+              </p>
+            ) : (
+              <ul className={styles.mobileDrawerList}>
+                {selectedRelics.map((r) => (
+                  <li key={r.id} className={styles.selectedItem}>
+                    <button
+                      className={styles.removeButton}
+                      onClick={() => toggle(r.id)}
+                      aria-label={`Remove ${r.name}`}
+                    >
+                      ×
+                    </button>
+                    <span className={`${styles.tierDot} ${TIER_CLASS[r.tier]}`} />
+                    <span className={styles.selectedName}>{r.name}</span>
+                    <span className={`${styles.tierBadge} ${TIER_CLASS[r.tier]}`}>
+                      {r.points}pt{r.points !== 1 ? 's' : ''}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         )}
+
+        {/* Always-visible summary row (tap to toggle the drawer) */}
+        <button
+          className={styles.mobileBarRow}
+          onClick={() => setMobileListOpen((v) => !v)}
+          aria-expanded={mobileListOpen}
+        >
+          <div className={styles.mobileBarStats}>
+            <span className={styles.mobileBarTotal}>{totals.total}</span>
+            <span className={styles.mobileBarLabel}>pts</span>
+            <span className={styles.mobileBarCount}>· {totals.count} equipped</span>
+          </div>
+          <div className={styles.mobileBarTiers}>
+            <span className={styles.tier1}>T1 {totals.tier1}</span>
+            <span className={styles.tier2}>T2 {totals.tier2}</span>
+            <span className={styles.tier3}>T3 {totals.tier3}</span>
+          </div>
+          <span className={`${styles.mobileBarChevron} ${mobileListOpen ? styles.mobileBarChevronOpen : ''}`}>
+            ›
+          </span>
+        </button>
       </div>
     </div>
   );

@@ -281,6 +281,10 @@
   display: none;
 }
 
+.mobileBackdrop {
+  display: none;
+}
+
 /* ─── Filters ─── */
 .filters {
   display: flex;
@@ -489,20 +493,38 @@
     grid-template-columns: 1fr;
   }
 
-  /* Sticky bottom bar */
+  /* Sticky bottom bar (collapsible) */
   .mobileBar {
     display: flex;
-    align-items: center;
-    gap: var(--space-md);
+    flex-direction: column;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 50;
-    padding: var(--space-md) var(--space-lg);
     background: var(--color-bg-secondary);
     border-top: 1px solid var(--color-border);
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .mobileBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .mobileBarRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
   }
 
   .mobileBarStats {
@@ -549,5 +571,52 @@
 
   .mobileBarTiers .tier3 {
     color: var(--color-danger);
+  }
+
+  .mobileBarChevron {
+    font-size: 18px;
+    color: var(--color-text-muted);
+    transform: rotate(-90deg);
+    transition: transform var(--transition-fast);
+  }
+
+  .mobileBarChevronOpen {
+    transform: rotate(90deg);
+  }
+
+  /* Expandable drawer */
+  .mobileDrawer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-lg) var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+
+  .mobileDrawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobileDrawerList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    list-style: none;
+  }
+
+  .mobileDrawerList .selectedItem {
+    padding: var(--space-xs) 0;
+  }
+
+  .mobileDrawerList .selectedName {
+    flex: 1;
+  }
+
+  .mobileDrawerList .tierBadge {
+    flex-shrink: 0;
   }
 }
