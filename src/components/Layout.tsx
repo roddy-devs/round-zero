@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import styles from './Layout.module.css';
 import { maps } from '../data';
 
 export function Layout() {
   const location = useLocation();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   // Track which map groups are expanded. Auto-expand if current path is under that map.
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -17,12 +18,48 @@ export function Layout() {
   const toggle = (slug: string) =>
     setExpanded((prev) => ({ ...prev, [slug]: !prev[slug] }));
 
+  // Close the mobile nav whenever the route changes.
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar}>
-        <NavLink to="/" className={styles.logo}>
+      {/* Mobile top bar */}
+      <header className={styles.topbar}>
+        <button
+          className={styles.hamburger}
+          onClick={() => setMobileNavOpen(true)}
+          aria-label="Open navigation"
+          aria-expanded={mobileNavOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <NavLink to="/" className={styles.topbarLogo}>
           <span className={styles.logoAccent}>Round</span> Zero
         </NavLink>
+      </header>
+
+      {/* Backdrop (mobile, when nav open) */}
+      {mobileNavOpen && (
+        <div className={styles.backdrop} onClick={() => setMobileNavOpen(false)} />
+      )}
+
+      <aside className={`${styles.sidebar} ${mobileNavOpen ? styles.sidebarOpen : ''}`}>
+        <div className={styles.sidebarHeader}>
+          <NavLink to="/" className={styles.logo}>
+            <span className={styles.logoAccent}>Round</span> Zero
+          </NavLink>
+          <button
+            className={styles.closeButton}
+            onClick={() => setMobileNavOpen(false)}
+            aria-label="Close navigation"
+          >
+            ×
+          </button>
+        </div>
 
         <nav className={styles.nav}>
           <span className={styles.navLabel}>Maps</span>

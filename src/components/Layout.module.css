@@ -3,6 +3,23 @@
   min-height: 100vh;
 }
 
+/* ─── Mobile top bar (hidden on desktop) ─── */
+.topbar {
+  display: none;
+}
+
+.backdrop {
+  display: none;
+}
+
+.sidebarHeader {
+  display: none;
+}
+
+.closeButton {
+  display: none;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -161,26 +178,116 @@
 }
 
 @media (max-width: 768px) {
-  .sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-md);
+  .layout {
     flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-sm);
+  }
+
+  /* Top bar with hamburger + logo */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-text-primary);
+    border-radius: 2px;
+  }
+
+  .topbarLogo {
+    font-size: var(--font-size-base);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    letter-spacing: -0.03em;
+  }
+
+  .topbarLogo:hover {
+    color: var(--color-text-primary);
+  }
+
+  /* Backdrop behind the slide-in nav */
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Slide-in sidebar drawer */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(80vw, 300px);
+    height: 100vh;
+    border-right: 1px solid var(--color-border);
+    border-bottom: none;
+    padding: var(--space-lg) var(--space-md);
+    z-index: 110;
+    transform: translateX(-100%);
+    transition: transform var(--transition-base, 0.25s ease);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  /* Drawer header with logo + close button */
+  .sidebarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    padding: var(--space-sm) var(--space-sm);
+  }
+
+  .closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .closeButton:hover {
+    color: var(--color-text-primary);
   }
 
   .nav {
     flex-direction: column;
     gap: var(--space-xs);
     width: 100%;
-  }
-
-  .navLabel {
-    display: none;
   }
 
   .navGroup {
@@ -195,10 +302,6 @@
   .navSubLinks {
     margin-left: 12px;
     margin-right: 6px;
-  }
-
-  .layout {
-    flex-direction: column;
   }
 
   .content {
