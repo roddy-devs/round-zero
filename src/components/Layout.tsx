@@ -75,6 +75,14 @@ export function Layout() {
           >
             Relic Calculator
           </NavLink>
+          <NavLink
+            to="/super-easter-egg"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+            }
+          >
+            Super Easter Egg
+          </NavLink>
         </nav>
       </aside>
 
