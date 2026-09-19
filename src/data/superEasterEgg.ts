@@ -15,7 +15,7 @@ export interface SeeSection {
 const IMG = '/images/super-easter-egg';
 
 /**
- * "Playdate with the Twins" — the cross-map super easter egg.
+ * "Playdate with the Twins" is the cross-map super easter egg.
  * Collect a toy from each of the five maps and bring them to Rex Infernus
  * for the final boss rush. Sourced from the map PDF guides.
  */
@@ -29,7 +29,7 @@ export const superEasterEgg: {
   title: 'Super Easter Egg',
   subtitle: 'Playdate with the Twins',
   intro:
-    'Collect a toy from each of the five maps and transfer them to the Rex Infernus house, then start the final encounter — a boss rush against every toy you gathered.',
+    'Collect a toy from each of the five maps and transfer them to the Rex Infernus house, then start the final encounter, a boss rush against every toy you gathered.',
   credits: 'Freckleston1, MrDalekJD, UFO, BeaK, Vini, ZoneX Discord',
   sections: [
     {
@@ -39,12 +39,12 @@ export const superEasterEgg: {
       steps: [
         { text: 'Load into Astra Malorum.' },
         {
-          text: 'The Toybox has multiple spawn locations, all outside the zombie barriers. It starts floating out in space — throw a grenade at it or shoot it with Packed 1911s (Mustang & Sally).',
+          text: 'The Toybox has multiple spawn locations, all outside the zombie barriers. It starts floating out in space. Throw a grenade at it or shoot it with Packed 1911s (Mustang & Sally).',
           image: `${IMG}/astra-toybox-1911s.webp`,
           imageCaption: 'The floating Toybox out in space near The Luminarium.',
         },
         {
-          text: 'It will then move to a new position — hit it again with a grenade or Packed 1911s, and it will float down into spawn.',
+          text: 'It will then move to a new position. Hit it again with a grenade or Packed 1911s, and it will float down into spawn.',
           image: `${IMG}/astra-toybox-moved.webp`,
         },
         { text: 'Throw a Kazimir Grenade at the floating Toybox to make it land.' },
@@ -52,7 +52,7 @@ export const superEasterEgg: {
         { text: 'Do the DG-2 Turret space jump, then place it on Tessie.' },
         { text: 'Kill O.S.C.A.R. with the DG-2 Turret to open the box.' },
         {
-          text: 'Go to the Telescope at Pack-a-Punch — a shooting star will appear on the Telescope.',
+          text: 'Go to the Telescope at Pack-a-Punch. A shooting star will appear on the Telescope.',
           image: `${IMG}/astra-telescope-star.webp`,
         },
         {
@@ -66,7 +66,7 @@ export const superEasterEgg: {
         { text: "Progress the Main Quest up to the Boss Fight, but don't start it." },
         { text: 'Go to Mars. In the right-hand corner there are disks blinking with a blue light.' },
         {
-          text: 'Craft Shock Charges at a crafting table and throw them at the blinking lights (finicky — there is a sound cue when done correctly).',
+          text: 'Craft Shock Charges at a crafting table and throw them at the blinking lights (finicky; there is a sound cue when done correctly).',
         },
         {
           text: 'The UFO flies in, floats, and blinks its light in Morse code, giving you 4 initials for the 4 items in the chambers on the left side of the Mars arena.',
@@ -78,7 +78,7 @@ export const superEasterEgg: {
           imageCaption: 'The four chamber items.',
         },
         {
-          text: 'Do the Lantern Wisp side easter egg. There are 9 lanterns against walls (two in Crash Site, three in the courtyard in front of The Luminarium, two at the back of The Luminarium, two in Scholar\'s Way). Find the lantern blinking with a white wisp and aim at it to obtain the wisp — it orbits around you. Your melee button throws the wisp before it returns.',
+          text: 'Do the Lantern Wisp side easter egg. There are 9 lanterns against walls (two in Crash Site, three in the courtyard in front of The Luminarium, two at the back of The Luminarium, two in Scholar\'s Way). Find the lantern blinking with a white wisp and aim at it to obtain the wisp, which orbits around you. Your melee button throws the wisp before it returns.',
         },
         {
           text: 'To upgrade the wisp, place it inside all 9 lanterns by throwing it and retrieving it. Once it is in the last lantern, pass the round.',
@@ -100,11 +100,11 @@ export const superEasterEgg: {
         { text: 'Load into Ashes of the Damned.' },
         { text: 'Open up the map and switch on all 3 Power Stations.' },
         {
-          text: 'Find the Twins around the map — they can spawn on the fog road between Blackwater and Ashwood, in Ashwood, on the boat in the fog, or by the right side of the cabin near Blackwater lake (the tier-3 relic telephone cabin).',
+          text: 'Find the Twins around the map. They can spawn on the fog road between Blackwater and Ashwood, in Ashwood, on the boat in the fog, or by the right side of the cabin near Blackwater lake (the tier-3 relic telephone cabin).',
           image: `${IMG}/ashes-twins-cabin.webp`,
         },
         { text: 'Approach them and they will teleport to Vandorn Farm.' },
-        { text: 'Go to the farm — the Twins will be sat on top of the barn.' },
+        { text: 'Go to the farm. The Twins will be sat on top of the barn.' },
         { text: 'The Toybox will be floating in front of the windmill.' },
         {
           text: 'Craft the Necrofluid Gauntlet and pull the Toybox down.',
@@ -149,13 +149,13 @@ export const superEasterEgg: {
         },
         { text: 'The Twins will say "the box likes presents."' },
         {
-          text: 'King Draugvald spawns in the burial grounds — it has a lot of health and deals heavy damage.',
+          text: 'King Draugvald spawns in the burial grounds. It has a lot of health and deals heavy damage.',
         },
         {
           text: 'Complete the Wonder Weapon quest (may not be required) to open Lighthouse Island. Head to the first floor (you can wall-jump up) and pick up the grey crossbow "The Silent Heir" on a broken ledge. The Twins will say "that\u2019s a big kid toy."',
           image: `${IMG}/totenreich-silent-heir.webp`,
         },
-        { text: 'Kill King Draugvald with the crossbow and he will drop The Crown — pick it up.' },
+        { text: 'Kill King Draugvald with the crossbow and he will drop The Crown. Pick it up.' },
         { text: 'Return to the Toybox at the dock and place The Crown inside to receive the Toy Guardian.' },
         { text: 'Use the Exfil Booth to transfer the Toy Guardian to the Rex Infernus house.' },
       ],
@@ -209,7 +209,7 @@ export const superEasterEgg: {
         {
           text: 'On an exfil round, teleport to her house by shooting the symbols, then get the Eye to upgrade the Void Claw into the Void Talon (red grapple).',
         },
-        { text: 'Go to Nyxara\u2019s Passage — in a gap there will be a lock.' },
+        { text: 'Go to Nyxara\u2019s Passage. In a gap there will be a lock.' },
         { text: 'Grapple to the lock and you will teleport to an obstacle course.' },
         {
           text: 'You have 2 minutes to climb to the Toybox on the front of the house.',
@@ -220,7 +220,7 @@ export const superEasterEgg: {
           text: 'Three horses now float in the air near perk machines (near Juggernog, near Widow\u2019s Wine, near PhD Flopper). They spawn in order.',
         },
         {
-          text: 'The horses are Soulboxes. Grapple them to pull them down, then melee them — they turn into ghost items showing an action to complete: Skates = PhD kills, Shoes = kills while jumping, Laces = Frenzied Guard kills.',
+          text: 'The horses are Soulboxes. Grapple them to pull them down, then melee them. They turn into ghost items showing an action to complete: Skates = PhD kills, Shoes = kills while jumping, Laces = Frenzied Guard kills.',
         },
         { text: 'Once each Soulbox is complete, pick up every part.' },
         { text: 'On an exfil round, a portal appears in front of the house to teleport there.' },
@@ -239,7 +239,7 @@ export const superEasterEgg: {
       title: 'The Final Encounter',
       subtitle: 'Veytharion\u2019s Boss Rush',
       steps: [
-        { text: 'You teleport to Veytharion\u2019s Boss Fight Chamber — this is a boss rush.' },
+        { text: 'You teleport to Veytharion\u2019s Boss Fight Chamber. This is a boss rush.' },
         {
           text: 'You start with 2500 Salvage and 10K Essence for free. The arena has a crafting table, Wunderfizz, and Pack-a-Punch.',
         },
@@ -247,13 +247,13 @@ export const superEasterEgg: {
           text: 'After each boss is defeated you get a 1-minute buffer before Playtime continues.',
           note: 'It is unclear whether the bosses appear in a set order or are randomized.',
         },
-        { text: 'Z-Rex — weakness unknown.' },
-        { text: 'Guardian — weakness unknown.' },
+        { text: 'Z-Rex.' },
+        { text: 'Guardian.' },
         {
-          text: 'Demolition Derby — you get two Tessies. Kill 400 zombies, then Abominations spawn; kill 400 more zombies, then a wave of bears spawns in.',
+          text: 'Demolition Derby: you get two Tessies. Kill 400 zombies, then Abominations spawn; kill 400 more zombies, then a wave of bears spawns in.',
         },
-        { text: 'Caltheris — you go zero-gravity during this fight and damage is capped.' },
-        { text: 'The Warden — for the final fight you are teleported to the Rex Infernus arena, reportedly with new attacks.' },
+        { text: 'Caltheris: you go zero-gravity during this fight and damage is capped.' },
+        { text: 'The Warden: for the final fight you are teleported to the Rex Infernus arena, reportedly with new attacks.' },
         {
           text: 'Once you complete the boss rush you get a long cutscene of moments from across the Dark Aether story with the "Remember Us" song playing over it.',
         },
