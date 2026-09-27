@@ -113,6 +113,14 @@ export function Layout() {
             Relic Calculator
           </NavLink>
           <NavLink
+            to="/dps-analysis"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+            }
+          >
+            DPS Analysis
+          </NavLink>
+          <NavLink
             to="/super-easter-egg"
             className={({ isActive }) =>
               `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
