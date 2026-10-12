@@ -1,0 +1,81 @@
+name: deploy
+
+# Box template (ECR + pull via SSM). Push to develop -> build image in CI ->
+# push to ECR -> tell the hiro-apps box to pull & run it. No SSH keys; OIDC +
+# SSM only. Mirrors work/aura/.github/workflows/deploy.yml.
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-round-zero
+  cancel-in-progress: true
+
+permissions:
+  id-token: write   # for AWS OIDC
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPO: round-zero
+  INSTANCE_ID: i-0d7830786862d8a64
+  APP_DIR: /opt/apps/round-zero
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::080434618477:role/hiro-deploy
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & push image
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+        run: |
+          IMAGE="$REGISTRY/$ECR_REPO:${GITHUB_SHA::12}"
+          LATEST="$REGISTRY/$ECR_REPO:latest"
+          docker build --platform linux/amd64 -t "$IMAGE" -t "$LATEST" .
+          docker push "$IMAGE"
+          docker push "$LATEST"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+
+      - name: Deploy on the box via SSM
+        run: |
+          # Build the SSM parameters JSON safely from the committed deploy script
+          # (jq handles all quoting/escaping — no fragile inline heredoc).
+          PARAMS=$(jq -n --rawfile script deploy/remote.sh \
+            '{commands: [$script]}')
+          CMD_ID=$(aws ssm send-command \
+            --region "$AWS_REGION" \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy round-zero ${GITHUB_SHA::12}" \
+            --parameters "$PARAMS" \
+            --query Command.CommandId --output text)
+          echo "SSM command: $CMD_ID"
+          for i in $(seq 1 40); do
+            sleep 6
+            ST=$(aws ssm get-command-invocation --region "$AWS_REGION" --command-id "$CMD_ID" --instance-id "$INSTANCE_ID" --query Status --output text 2>/dev/null || echo Pending)
+            echo "status: $ST"
+            case "$ST" in
+              Success)
+                aws ssm get-command-invocation --region "$AWS_REGION" --command-id "$CMD_ID" --instance-id "$INSTANCE_ID" --query StandardOutputContent --output text
+                exit 0 ;;
+              Failed|Cancelled|TimedOut)
+                echo "---- stdout ----"; aws ssm get-command-invocation --region "$AWS_REGION" --command-id "$CMD_ID" --instance-id "$INSTANCE_ID" --query StandardOutputContent --output text
+                echo "---- stderr ----"; aws ssm get-command-invocation --region "$AWS_REGION" --command-id "$CMD_ID" --instance-id "$INSTANCE_ID" --query StandardErrorContent --output text
+                exit 1 ;;
+            esac
+          done
+          echo "timed out waiting for SSM command"; exit 1

@@ -1,0 +1,17 @@
+node_modules
+dist
+dist-server
+.git
+.env
+.env.*
+.vercel
+.kaname
+.agents
+.claude
+.windsurf
+npm-debug.log*
+*.md
+docs
+.DS_Store
+.vscode
+.idea

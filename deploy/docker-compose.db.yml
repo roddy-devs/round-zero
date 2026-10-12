@@ -1,0 +1,41 @@
+# round-zero Postgres — dedicated DB container on the hiro-apps box.
+# Mirrors the cg-tampa pattern (postgres:16-alpine + named volume + healthcheck).
+#
+# The DB joins the external `round-zero-net` network so the app container can
+# reach it at host `round-zero-db:5432`. The DB is NOT published to the host —
+# only the app (via Caddy) is reachable. The app container is managed by
+# deploy/remote.sh (ECR pull + docker run); this compose only owns the DB.
+#
+# Bring up once on the box with deploy/db.sh. deploy/remote.sh also creates an
+# identical container if it is missing, so this file is the declarative source
+# of truth, not a separate runtime path.
+name: round_zero
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: round-zero-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: round_zero
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - round-zero-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d round_zero"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    mem_limit: 512m
+
+volumes:
+  postgres_data:
+    name: round_zero_postgres_data
+
+networks:
+  round-zero-net:
+    name: round-zero-net
+    external: true
