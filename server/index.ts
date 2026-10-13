@@ -3,6 +3,15 @@ import path from 'node:path';
 import express, { type Request, type Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import {
+  queryDps,
+  listMaps,
+  getMap,
+  listRelics,
+  dispatchSolve,
+  paradoxPiano,
+  fixedCodesByMap,
+} from './mia-api';
 
 // ─── Prisma ──────────────────────────────────────────────────────────────────
 // Single long-lived client for the lifetime of the server process (unlike the
@@ -69,6 +78,93 @@ app.delete('/api/runs/:id', async (req: Request, res: Response) => {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+// ─── Mia API (BO7 Zombies knowledge for the voice assistant) ──────────────────
+// Public read-mostly endpoints. See MIA-API-BUILD-NOTE.md + server/mia-api.ts.
+
+// GET /api/dps — BO7 weapon DPS table. Query: ?name= ?class= ?tier= ?top=N
+app.get('/api/dps', (req: Request, res: Response) => {
+  try {
+    const { name, class: weaponClass, tier, top } = req.query;
+    res.status(200).json(
+      queryDps({
+        name: typeof name === 'string' ? name : undefined,
+        class: typeof weaponClass === 'string' ? weaponClass : undefined,
+        tier: typeof tier === 'string' ? tier : undefined,
+        top: typeof top === 'string' ? top : undefined,
+      }),
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/maps — list of maps {slug,name,game,subtitle}
+app.get('/api/maps', (_req: Request, res: Response) => {
+  try {
+    res.status(200).json({ maps: listMaps() });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/maps/:slug — full MapData (guide + relics)
+app.get('/api/maps/:slug', (req: Request, res: Response) => {
+  try {
+    const map = getMap(req.params.slug);
+    if (!map) {
+      res.status(404).json({ error: `No map with slug '${req.params.slug}'.` });
+      return;
+    }
+    res.status(200).json(map);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/relics?map= — relic list, optionally filtered by map
+app.get('/api/relics', (req: Request, res: Response) => {
+  try {
+    const { map } = req.query;
+    res.status(200).json(listRelics(typeof map === 'string' ? map : undefined));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// POST /api/solve/:name — stateless compute solvers
+app.post('/api/solve/:name', (req: Request, res: Response) => {
+  try {
+    const input = (req.body ?? {}) as Record<string, unknown>;
+    const { status, body } = dispatchSolve(req.params.name, input);
+    res.status(status).json(body);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/codes/paradox-piano — fixed Paradox note/piano order
+app.get('/api/codes/paradox-piano', (_req: Request, res: Response) => {
+  res.status(200).json(paradoxPiano);
+});
+
+// GET /api/codes/:map — fixed handle/piano codes for a given map slug
+app.get('/api/codes/:map', (req: Request, res: Response) => {
+  const codes = fixedCodesByMap[req.params.map];
+  if (!codes) {
+    res.status(404).json({
+      error: `No fixed codes for map '${req.params.map}'.`,
+      available: Object.keys(fixedCodesByMap),
+    });
+    return;
+  }
+  res.status(200).json(codes);
 });
 
 // ─── Static SPA ──────────────────────────────────────────────────────────────
