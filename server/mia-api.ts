@@ -476,23 +476,45 @@ export const rexInfernusRiddles = [
   },
 ] as const;
 
-/** Lookup a riddle solution by id or by (fuzzy) sentence substring. */
+/** Lookup a riddle solution by id or by (fuzzy) sentence — tolerant of partials. */
 export function solveRexInfernusRiddle(input: { id?: string; sentence?: string }) {
   if (input.id) {
     const match = rexInfernusRiddles.find((r) => r.id === input.id);
     if (match) return { ok: true as const, riddle: match };
   }
   if (input.sentence) {
-    const needle = input.sentence.toLowerCase().trim();
-    const match =
-      rexInfernusRiddles.find((r) => r.sentence.toLowerCase() === needle) ??
-      rexInfernusRiddles.find((r) => r.sentence.toLowerCase().includes(needle)) ??
-      rexInfernusRiddles.find((r) => needle.includes(r.sentence.toLowerCase().slice(0, 24)));
-    if (match) return { ok: true as const, riddle: match };
+    const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+    const needle = norm(input.sentence);
+    if (needle) {
+      // 1) exact, 2) riddle starts with the given prefix, 3) either contains the
+      // other, 4) best word-overlap above a threshold (handles STT drift like a
+      // dropped/misheard word). The riddles diverge within the first few words,
+      // so even a short beginning ("i drift to the runner") disambiguates.
+      const normed = rexInfernusRiddles.map((r) => ({ r, s: norm(r.sentence) }));
+      const needleWords = needle.split(" ");
+      let best: { r: typeof rexInfernusRiddles[number]; score: number } | null = null;
+      for (const { r, s } of normed) {
+        if (s === needle) return { ok: true as const, riddle: r };
+        if (s.startsWith(needle) || needle.startsWith(s)) return { ok: true as const, riddle: r };
+        if (s.includes(needle) || needle.includes(s)) return { ok: true as const, riddle: r };
+        // Ordered LEADING-PREFIX agreement: count matching words from the start
+        // (the riddles diverge by word ~3-4, so even a short beginning picks the
+        // right one, and a later inserted/misheard word doesn't flip the match).
+        const words = s.split(" ");
+        let lead = 0;
+        for (let i = 0; i < Math.min(words.length, needleWords.length); i++) {
+          if (words[i] === needleWords[i]) lead++; else break;
+        }
+        const score = lead / Math.max(needleWords.length, 1);
+        if (!best || score > best.score) best = { r, score };
+      }
+      // Require a solid leading-prefix majority so we don't mis-resolve.
+      if (best && best.score >= 0.6) return { ok: true as const, riddle: best.r };
+    }
   }
   return {
     ok: false as const,
-    error: 'Provide a riddle id (r1-r4) or a sentence that matches one of the riddles.',
+    error: 'Say the beginning of the riddle (e.g. "I drift to the runner…") or give its id (r1-r4).',
     riddles: rexInfernusRiddles,
   };
 }
