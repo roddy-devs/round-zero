@@ -18,6 +18,20 @@ export function Layout() {
   const toggle = (slug: string) =>
     setExpanded((prev) => ({ ...prev, [slug]: !prev[slug] }));
 
+  const DROP_RATE_PATHS = [
+    '/mystery-box',
+    '/vending-machine',
+    '/multi-pack',
+    '/peeks',
+    '/free-perks',
+  ];
+  const [dropRatesOpen, setDropRatesOpen] = useState(() =>
+    DROP_RATE_PATHS.some((p) => location.pathname.startsWith(p)),
+  );
+  const isDropRatesActive = DROP_RATE_PATHS.some((p) =>
+    location.pathname.startsWith(p),
+  );
+
   // Close the mobile nav whenever the route changes.
   useEffect(() => {
     setMobileNavOpen(false);
@@ -128,6 +142,64 @@ export function Layout() {
           >
             Super Easter Egg
           </NavLink>
+
+          <span className={`${styles.navLabel} ${styles.navLabelTools}`}>Drop Rates</span>
+          <div className={styles.navGroup}>
+            <button
+              className={`${styles.navGroupToggle} ${isDropRatesActive ? styles.navGroupToggleActive : ''}`}
+              onClick={() => setDropRatesOpen((v) => !v)}
+              aria-expanded={dropRatesOpen}
+            >
+              <span className={styles.navGroupName}>Drop Rates</span>
+              <span className={`${styles.navGroupChevron} ${dropRatesOpen ? styles.navGroupChevronOpen : ''}`}>
+                ›
+              </span>
+            </button>
+            {dropRatesOpen && (
+              <div className={styles.navSubLinks}>
+                <NavLink
+                  to="/mystery-box"
+                  className={({ isActive }) =>
+                    `${styles.navSubLink} ${isActive ? styles.navSubLinkActive : ''}`
+                  }
+                >
+                  Mystery Box
+                </NavLink>
+                <NavLink
+                  to="/vending-machine"
+                  className={({ isActive }) =>
+                    `${styles.navSubLink} ${isActive ? styles.navSubLinkActive : ''}`
+                  }
+                >
+                  Vending Machine
+                </NavLink>
+                <NavLink
+                  to="/multi-pack"
+                  className={({ isActive }) =>
+                    `${styles.navSubLink} ${isActive ? styles.navSubLinkActive : ''}`
+                  }
+                >
+                  Multi Pack
+                </NavLink>
+                <NavLink
+                  to="/peeks"
+                  className={({ isActive }) =>
+                    `${styles.navSubLink} ${isActive ? styles.navSubLinkActive : ''}`
+                  }
+                >
+                  Mr. Peeks &amp; Eggs
+                </NavLink>
+                <NavLink
+                  to="/free-perks"
+                  className={({ isActive }) =>
+                    `${styles.navSubLink} ${isActive ? styles.navSubLinkActive : ''}`
+                  }
+                >
+                  Free Perks
+                </NavLink>
+              </div>
+            )}
+          </div>
         </nav>
       </aside>
 

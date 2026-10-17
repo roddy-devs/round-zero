@@ -1,0 +1,402 @@
+/* Shared styles for the Drop Rates pages (Mystery Box, Vending Machine,
+   Multi Pack, Mr. Peeks, Free Perks). Mirrors the visual language of the
+   Relic Calculator / DPS Analysis pages. */
+
+/* ─── Page + hero ─── */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: calc(var(--space-2xl) * -1);
+}
+
+.hero {
+  position: relative;
+  padding: var(--space-3xl) var(--space-2xl) var(--space-2xl);
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 0%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(124, 58, 237, 0.04) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 760px;
+}
+
+.heroBadge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  opacity: 0.7;
+}
+
+.heroTitle {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+  line-height: 1.05;
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-top: var(--space-xs);
+  line-height: 1.6;
+}
+
+/* ─── Body ─── */
+.body {
+  padding: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  min-width: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.sectionNote {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Calculator card ─── */
+.calc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  border-top: 3px solid var(--color-accent);
+  padding: var(--space-lg);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 160px;
+}
+
+.controlLabel {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.chip {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.chip:hover {
+  border-color: var(--color-border-hover);
+  color: var(--color-text-primary);
+}
+
+.chipActive {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+/* Number stepper */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.stepperButton {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.stepperButton:hover {
+  border-color: var(--color-border-hover);
+  background: var(--color-bg-hover);
+}
+
+.stepperValue {
+  min-width: 48px;
+  text-align: center;
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.numberInput {
+  width: 90px;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.numberInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* ─── Result readout ─── */
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.resultMeta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.bigStat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-accent);
+}
+
+.bigStatValue {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.bigStatLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ─── Outcome bars ─── */
+.outcomes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.outcome {
+  display: grid;
+  grid-template-columns: 150px 1fr 64px;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.outcomeLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.outcomeBarTrack {
+  height: 10px;
+  background: var(--color-bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.outcomeBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent-dim), var(--color-accent));
+  border-radius: 999px;
+  transition: width var(--transition-base);
+}
+
+.outcomeValue {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Table ─── */
+.tableWrap {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  background: var(--color-bg-secondary);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table thead th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover td {
+  background: var(--color-bg-hover);
+}
+
+.tdLabel {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.num {
+  text-align: right;
+}
+
+.rowActive td {
+  background: var(--color-accent-subtle) !important;
+}
+
+/* Rarity color accents for numeric cells */
+.green { color: var(--color-success); }
+.blue { color: #60a5fa; }
+.purple { color: var(--color-accent); }
+.orange { color: var(--color-warning); }
+.muted { color: var(--color-text-muted); }
+
+/* ─── Rules list ─── */
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.rule {
+  display: flex;
+  gap: var(--space-md);
+  align-items: baseline;
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.ruleBullet {
+  color: var(--color-accent);
+  font-weight: 800;
+}
+
+.ruleStrong {
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 720px) {
+  .page {
+    margin: calc(var(--space-lg) * -1);
+  }
+  .hero {
+    padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  }
+  .heroTitle {
+    font-size: var(--font-size-3xl);
+  }
+  .body {
+    padding: var(--space-lg);
+    gap: var(--space-xl);
+  }
+  .outcome {
+    grid-template-columns: 120px 1fr 56px;
+    gap: var(--space-sm);
+  }
+  .control {
+    min-width: 0;
+    flex: 1 1 140px;
+  }
+}

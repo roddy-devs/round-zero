@@ -8,6 +8,8 @@ import { rexInfernus } from './rexInfernus';
 
 export type { MapData, Section, Step, SubStep, MediaRef } from './types';
 
+export * from './dropRates';
+
 export const maps: MapData[] = [aotd, astra, paradox, totenreich, kowakujo, rexInfernus];
 
 export function getMapBySlug(slug: string): MapData | undefined {
