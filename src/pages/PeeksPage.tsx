@@ -11,7 +11,7 @@ const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
 const pct0 = (n: number) => `${(n * 100).toFixed(0)}%`;
 
 const MODES: { id: CursedModeKind; label: string }[] = [
-  { id: 'normal', label: 'Normal' },
+  { id: 'normal', label: 'Cursed' },
   { id: 'mayhem', label: 'Mayhem' },
 ];
 
@@ -97,7 +97,7 @@ export function PeeksPage() {
                 </span>
               </div>
               <p className={styles.sectionNote}>
-                Per-round spawn chance in {mode === 'mayhem' ? 'Mayhem' : 'Normal'}:{' '}
+                Per-round spawn chance in {mode === 'mayhem' ? 'Mayhem' : 'Cursed'}:{' '}
                 <strong>{pct0(perRound)}</strong>. Formula: 1 − (1 − {perRound})
                 <sup>rounds</sup>, assuming each round rolls independently.
               </p>
@@ -133,7 +133,7 @@ export function PeeksPage() {
           <h2 className={styles.sectionTitle}>Egg Tier Rarities</h2>
           <p className={styles.sectionNote}>
             Metal breakdown for each egg tier, by mode. Currently showing{' '}
-            <strong>{mode === 'mayhem' ? 'Mayhem' : 'Normal (Cursed)'}</strong>.
+            <strong>{mode === 'mayhem' ? 'Mayhem' : 'Cursed'}</strong>.
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
