@@ -11,6 +11,7 @@ import {
   type WeaponRaritySelectionMode,
   type WeaponRarityRoundBand,
 } from '../data/dropRates';
+import { DataTable, type DataColumn, type DataRow } from '../components/DataTable';
 import styles from './DropRates.module.css';
 
 /** The three UI modes map to a (box table, rarity table) pair. */
@@ -59,6 +60,68 @@ export function MysteryBoxPage() {
   const rarityBands = Object.keys(
     WEAPON_RARITY_SELECTION[rarityMode],
   ) as WeaponRarityRoundBand[];
+
+  // ─── Table models ───
+  const boxColumns: DataColumn[] = [
+    { key: 'band', label: 'Rounds' },
+    { key: 'uncommon', label: 'Uncommon', numeric: true },
+    { key: 'rare', label: 'Rare', numeric: true },
+    { key: 'epic', label: 'Epic', numeric: true },
+    { key: 'legendary', label: 'Legendary', numeric: true },
+    { key: 'ww', label: 'Wonder Weapon', numeric: true },
+    { key: 'aether', label: 'Aether Tool', numeric: true },
+  ];
+  const boxRows: DataRow[] = BOX_BANDS.map((band) => {
+    const row = MYSTERY_BOX_RARITY[boxMode][band];
+    return {
+      key: band,
+      active: band === activeBoxBand,
+      cells: {
+        band,
+        uncommon: <span className={styles.green}>{pct(row.uncommon)}</span>,
+        rare: <span className={styles.blue}>{pct(row.rare)}</span>,
+        epic: <span className={styles.purple}>{pct(row.epic)}</span>,
+        legendary: <span className={styles.orange}>{pct(row.legendary)}</span>,
+        ww: pct(row.wonderWeapon),
+        aether: <span className={styles.muted}>{pct(row.aetherTool)}</span>,
+      },
+    };
+  });
+
+  const selColumns: DataColumn[] = [
+    { key: 'band', label: 'Rounds' },
+    { key: 'green', label: 'Uncommon', numeric: true },
+    { key: 'blue', label: 'Rare', numeric: true },
+    { key: 'purple', label: 'Epic', numeric: true },
+    { key: 'orange', label: 'Legendary', numeric: true },
+    ...(rarityMode === 'cursed'
+      ? [{ key: 'ultra', label: 'Ultra', numeric: true } as DataColumn]
+      : []),
+  ];
+  const selRows: DataRow[] = rarityBands.map((band) => {
+    const row = WEAPON_RARITY_SELECTION[rarityMode][band]!;
+    return {
+      key: band,
+      active: band === activeRarityBand,
+      cells: {
+        band,
+        green: <span className={styles.green}>{pct(row.green)}</span>,
+        blue: <span className={styles.blue}>{pct(row.blue)}</span>,
+        purple: <span className={styles.purple}>{pct(row.purple)}</span>,
+        orange: <span className={styles.orange}>{pct(row.orange)}</span>,
+        ultra: pct(row.ultra ?? 0),
+      },
+    };
+  });
+
+  const classColumns: DataColumn[] = [
+    { key: 'cls', label: 'Weapon type' },
+    { key: 'share', label: 'Share', numeric: true },
+  ];
+  const classRows: DataRow[] = WEAPON_CLASS_SHARES.map((c) => ({
+    key: c.weaponClass,
+    cells: { cls: c.weaponClass, share: pct(c.share) },
+  }));
 
   return (
     <div className={styles.page}>
@@ -129,8 +192,6 @@ export function MysteryBoxPage() {
               <p className={styles.resultMeta}>
                 Box band <strong>{activeBoxBand}</strong> · rarity band{' '}
                 <strong>{activeRarityBand}</strong>
-                {mysteryBoxRoundBand(round) !== (activeRarityBand as string) &&
-                  ' (rarity table is sparser — nearest band used)'}
               </p>
               <div className={styles.outcomes}>
                 {calc.outcomes.map((o) => (
@@ -164,37 +225,7 @@ export function MysteryBoxPage() {
               ? 'Mr. Peeks Mayhem table (15% Wonder Weapon at round 36+).'
               : 'Standard / Cursed table (10% Wonder Weapon at round 36+).'}
           </p>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Rounds</th>
-                  <th className={styles.num}>Uncommon</th>
-                  <th className={styles.num}>Rare</th>
-                  <th className={styles.num}>Epic</th>
-                  <th className={styles.num}>Legendary</th>
-                  <th className={styles.num}>Wonder Weapon</th>
-                  <th className={styles.num}>Aether Tool</th>
-                </tr>
-              </thead>
-              <tbody>
-                {BOX_BANDS.map((band) => {
-                  const row = MYSTERY_BOX_RARITY[boxMode][band];
-                  return (
-                    <tr key={band} className={band === activeBoxBand ? styles.rowActive : ''}>
-                      <td className={styles.tdLabel}>{band}</td>
-                      <td className={`${styles.num} ${styles.green}`}>{pct(row.uncommon)}</td>
-                      <td className={`${styles.num} ${styles.blue}`}>{pct(row.rare)}</td>
-                      <td className={`${styles.num} ${styles.purple}`}>{pct(row.epic)}</td>
-                      <td className={`${styles.num} ${styles.orange}`}>{pct(row.legendary)}</td>
-                      <td className={styles.num}>{pct(row.wonderWeapon)}</td>
-                      <td className={`${styles.num} ${styles.muted}`}>{pct(row.aetherTool)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <DataTable columns={boxColumns} rows={boxRows} caption="Pull rarity by round" />
         </section>
 
         {/* ─── Weapon rarity selection ─── */}
@@ -205,37 +236,11 @@ export function MysteryBoxPage() {
             decide its rarity. {rarityMode === 'cursed' ? 'Cursed' : 'Standard'} table.
             {rarityMode === 'cursed' && ' Ultra is a flat 0.5% (Cursed only).'}
           </p>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Rounds</th>
-                  <th className={styles.num}>Uncommon</th>
-                  <th className={styles.num}>Rare</th>
-                  <th className={styles.num}>Epic</th>
-                  <th className={styles.num}>Legendary</th>
-                  {rarityMode === 'cursed' && <th className={styles.num}>Ultra</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {rarityBands.map((band) => {
-                  const row = WEAPON_RARITY_SELECTION[rarityMode][band]!;
-                  return (
-                    <tr key={band} className={band === activeRarityBand ? styles.rowActive : ''}>
-                      <td className={styles.tdLabel}>{band}</td>
-                      <td className={`${styles.num} ${styles.green}`}>{pct(row.green)}</td>
-                      <td className={`${styles.num} ${styles.blue}`}>{pct(row.blue)}</td>
-                      <td className={`${styles.num} ${styles.purple}`}>{pct(row.purple)}</td>
-                      <td className={`${styles.num} ${styles.orange}`}>{pct(row.orange)}</td>
-                      {rarityMode === 'cursed' && (
-                        <td className={styles.num}>{pct(row.ultra ?? 0)}</td>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={selColumns}
+            rows={selRows}
+            caption="Ordinary weapon rarity selection"
+          />
         </section>
 
         {/* ─── Weapon class shares ─── */}
@@ -244,24 +249,7 @@ export function MysteryBoxPage() {
           <p className={styles.sectionNote}>
             Share of ordinary weapon selections by class — independent of rarity and round.
           </p>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Weapon type</th>
-                  <th className={styles.num}>Share</th>
-                </tr>
-              </thead>
-              <tbody>
-                {WEAPON_CLASS_SHARES.map((c) => (
-                  <tr key={c.weaponClass}>
-                    <td className={styles.tdLabel}>{c.weaponClass}</td>
-                    <td className={styles.num}>{pct(c.share)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable columns={classColumns} rows={classRows} caption="Weapon class shares" />
         </section>
       </div>
     </div>

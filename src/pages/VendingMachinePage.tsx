@@ -3,6 +3,7 @@ import {
   VENDING_MACHINE_DESTROY,
   VENDING_MACHINE_LOOTPOOL,
 } from '../data/dropRates';
+import { DataTable, type DataColumn, type DataRow } from '../components/DataTable';
 import styles from './DropRates.module.css';
 
 const pct = (n: number) => {
@@ -88,27 +89,24 @@ export function VendingMachinePage() {
             Percentages are approximate as published. Values marked ~ in the source are
             rounded.
           </p>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th className={styles.num}>Chance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {VENDING_MACHINE_LOOTPOOL.map((entry) => (
-                  <tr key={entry.item}>
-                    <td className={styles.tdLabel}>{entry.item}</td>
-                    <td className={styles.num}>
-                      {pct(entry.chance)}
-                      {entry.approximate ? '~' : ''}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={
+              [
+                { key: 'item', label: 'Item' },
+                { key: 'chance', label: 'Chance', numeric: true },
+              ] as DataColumn[]
+            }
+            rows={
+              VENDING_MACHINE_LOOTPOOL.map((entry) => ({
+                key: entry.item,
+                cells: {
+                  item: entry.item,
+                  chance: `${pct(entry.chance)}${entry.approximate ? '~' : ''}`,
+                },
+              })) as DataRow[]
+            }
+            caption="Vending machine lootpool"
+          />
         </section>
       </div>
     </div>

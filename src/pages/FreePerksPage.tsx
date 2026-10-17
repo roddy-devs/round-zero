@@ -4,6 +4,7 @@ import {
   FREE_PERK_GRANT_CHANCE,
   FREE_PERK_MAX_PERKS,
 } from '../data/dropRates';
+import { DataTable, type DataColumn, type DataRow } from '../components/DataTable';
 import styles from './DropRates.module.css';
 
 const pct = (n: number) => `${(n * 100).toFixed(0)}%`;
@@ -74,24 +75,25 @@ export function FreePerksPage() {
         {/* ─── Requirement table ─── */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Perks Required</h2>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Lobby</th>
-                  <th className={styles.num}>Perks required (team total)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {PLAYER_COUNTS.map((p) => (
-                  <tr key={p.id} className={p.id === players ? styles.rowActive : ''}>
-                    <td className={styles.tdLabel}>{p.label}</td>
-                    <td className={styles.num}>{FREE_PERK_REQUIRED_PERKS[p.id]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={
+              [
+                { key: 'lobby', label: 'Lobby' },
+                { key: 'required', label: 'Perks required (team total)', numeric: true },
+              ] as DataColumn[]
+            }
+            rows={
+              PLAYER_COUNTS.map((p) => ({
+                key: String(p.id),
+                active: p.id === players,
+                cells: {
+                  lobby: p.label,
+                  required: FREE_PERK_REQUIRED_PERKS[p.id],
+                },
+              })) as DataRow[]
+            }
+            caption="Perks required by lobby size"
+          />
         </section>
 
         {/* ─── Rules ─── */}

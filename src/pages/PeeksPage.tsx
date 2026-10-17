@@ -5,6 +5,7 @@ import {
   peeksSpawnedAtLeastOnce,
   type CursedModeKind,
 } from '../data/dropRates';
+import { DataTable, type DataColumn, type DataRow } from '../components/DataTable';
 import styles from './DropRates.module.css';
 
 const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
@@ -108,24 +109,22 @@ export function PeeksPage() {
         {/* ─── Spawn chance table ─── */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Per-Round Spawn Chance</h2>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Mode</th>
-                  <th className={styles.num}>Chance each round</th>
-                </tr>
-              </thead>
-              <tbody>
-                {MODES.map((m) => (
-                  <tr key={m.id} className={m.id === mode ? styles.rowActive : ''}>
-                    <td className={styles.tdLabel}>{m.label}</td>
-                    <td className={styles.num}>{pct0(PEEKS_SPAWN_CHANCE[m.id])}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={
+              [
+                { key: 'mode', label: 'Mode' },
+                { key: 'chance', label: 'Chance each round', numeric: true },
+              ] as DataColumn[]
+            }
+            rows={
+              MODES.map((m) => ({
+                key: m.id,
+                active: m.id === mode,
+                cells: { mode: m.label, chance: pct0(PEEKS_SPAWN_CHANCE[m.id]) },
+              })) as DataRow[]
+            }
+            caption="Per-round spawn chance"
+          />
         </section>
 
         {/* ─── Egg tier odds ─── */}
@@ -135,31 +134,31 @@ export function PeeksPage() {
             Metal breakdown for each egg tier, by mode. Currently showing{' '}
             <strong>{mode === 'mayhem' ? 'Mayhem' : 'Cursed'}</strong>.
           </p>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Egg tier</th>
-                  <th className={styles.num}>Bronze</th>
-                  <th className={styles.num}>Silver</th>
-                  <th className={styles.num}>Gold</th>
-                </tr>
-              </thead>
-              <tbody>
-                {TIERS.map((t) => {
-                  const o = EGG_TIER_ODDS[mode][t];
-                  return (
-                    <tr key={t}>
-                      <td className={styles.tdLabel}>Tier {t}</td>
-                      <td className={`${styles.num} ${styles.orange}`}>{pct0(o.bronze)}</td>
-                      <td className={`${styles.num} ${styles.muted}`}>{pct0(o.silver)}</td>
-                      <td className={`${styles.num} ${styles.orange}`}>{pct0(o.gold)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={
+              [
+                { key: 'tier', label: 'Egg tier' },
+                { key: 'bronze', label: 'Bronze', numeric: true },
+                { key: 'silver', label: 'Silver', numeric: true },
+                { key: 'gold', label: 'Gold', numeric: true },
+              ] as DataColumn[]
+            }
+            rows={
+              TIERS.map((t) => {
+                const o = EGG_TIER_ODDS[mode][t];
+                return {
+                  key: String(t),
+                  cells: {
+                    tier: `Tier ${t}`,
+                    bronze: <span className={styles.orange}>{pct0(o.bronze)}</span>,
+                    silver: <span className={styles.muted}>{pct0(o.silver)}</span>,
+                    gold: <span className={styles.orange}>{pct0(o.gold)}</span>,
+                  },
+                };
+              }) as DataRow[]
+            }
+            caption="Egg tier rarities"
+          />
         </section>
       </div>
     </div>

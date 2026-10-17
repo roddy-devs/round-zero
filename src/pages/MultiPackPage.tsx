@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MULTI_PACK, multiPackCumulative } from '../data/dropRates';
+import { DataTable, type DataColumn, type DataRow } from '../components/DataTable';
 import styles from './DropRates.module.css';
 
 const pct = (n: number) => `${(n * 100).toFixed(0)}%`;
@@ -79,26 +80,25 @@ export function MultiPackPage() {
         {/* ─── Table ─── */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Odds by Consecutive Fails</h2>
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>State</th>
-                  <th className={styles.num}>Next attempt chance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {FAILS.map((f) => (
-                  <tr key={f} className={f === Math.min(fails, 3) ? styles.rowActive : ''}>
-                    <td className={styles.tdLabel}>
-                      {f === 0 ? 'Base (no fails)' : `${f} fail${f > 1 ? 's' : ''}`}
-                    </td>
-                    <td className={styles.num}>{pct(MULTI_PACK.chanceByFails[f])}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={
+              [
+                { key: 'state', label: 'State' },
+                { key: 'chance', label: 'Next attempt chance', numeric: true },
+              ] as DataColumn[]
+            }
+            rows={
+              FAILS.map((f) => ({
+                key: String(f),
+                active: f === Math.min(fails, 3),
+                cells: {
+                  state: f === 0 ? 'Base (no fails)' : `${f} fail${f > 1 ? 's' : ''}`,
+                  chance: pct(MULTI_PACK.chanceByFails[f]),
+                },
+              })) as DataRow[]
+            }
+            caption="Multi pack odds by consecutive fails"
+          />
           <p className={styles.sectionNote}>
             When Multi Pack succeeds, it resets back to the base{' '}
             {pct(MULTI_PACK.baseChance)} chance.
